@@ -1,12 +1,11 @@
 import { memo } from 'react'
-import clsx from 'clsx'
+// import clsx from 'clsx'
 import ColumnMenu from './ColumnMenu'
 
 interface ColumnHeaderProps {
     title: string
     status: string
     count: number
-    color: string
     onEditClick: () => void
     onDeleteClick: () => void
 }
@@ -14,14 +13,13 @@ interface ColumnHeaderProps {
 function ColumnHeader({
     title,
     count,
-    color,
     onEditClick,
     onDeleteClick,
 }: ColumnHeaderProps) {
     return (
         <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-2 overflow-hidden">
-                <div className={clsx('w-3 h-3 rounded-full shrink-0', color)} />
+                {/* <div className={clsx('w-3 h-3 rounded-full shrink-0', color)} /> */}
                 <h2 className="font-bold text-app-text truncate text-md tracking-wide">
                     {title}
                 </h2>

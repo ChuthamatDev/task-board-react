@@ -10,7 +10,7 @@ interface TaskListProps {
 }
 
 function TaskList({ tasks, onEdit }: TaskListProps) {
-    const { removeFromTask } = useTasks()
+    const { deleteTask } = useTasks()
     const taskIds = useMemo(() => tasks.map((t) => t.id), [tasks])
 
     return (
@@ -20,7 +20,7 @@ function TaskList({ tasks, onEdit }: TaskListProps) {
                     key={task.id}
                     task={task}
                     onEdit={onEdit}
-                    onDelete={removeFromTask}
+                    onDelete={deleteTask}
                 />
             ))}
         </SortableContext>

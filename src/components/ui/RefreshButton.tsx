@@ -4,14 +4,14 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 const RefreshButton = () => {
-    const { refetchTask, isLoading } = useTasks()
+    const { fetchTasks, isLoading } = useTasks()
     const { trans } = useLanguage()
 
     return (
         <Button
             variant="outline"
             size="md"
-            onClick={refetchTask}
+            onClick={fetchTasks}
             disabled={isLoading}
             className={isLoading ? 'animate-spin' : ''}
             title="Refresh Board"

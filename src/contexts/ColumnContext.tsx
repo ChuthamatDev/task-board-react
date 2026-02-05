@@ -4,79 +4,80 @@ import {
     useCallback,
     useContext,
     useEffect,
+    useState,
     useMemo,
-    useReducer,
 } from 'react'
-import { columnReducer, COLUMN_ACTIONS } from '../reducer/columnReducer'
-import { DEFAULT_COLUMNS, Column, TaskStatus } from '../utils/storage'
+import { Column } from '../utils/storage'
+import api from '../services/api'
 
 interface ColumnContextType {
     columns: Column[]
-    addColumn: (title: string, color?: string) => void
-    updateColumn: (id: string, updates: Partial<Column>) => void
-    deleteColumn: (id: string) => void
+    addColumn: (title: string, color?: string) => Promise<void>
+    updateColumn: (id: string, updates: Partial<Column>) => Promise<void>
+    deleteColumn: (id: string) => Promise<void>
 }
 
 const ColumnContext = createContext<ColumnContextType | undefined>(undefined)
 
-const initColumns = (): Column[] => {
-    const savedCols = localStorage.getItem('board_columns')
-    if (savedCols) {
+export default function ColumnProvider({ children }: { children: ReactNode }) {
+    const [columns, setColumns] = useState<Column[]>([])
+
+    const fetchColumns = useCallback(async () => {
         try {
-            return JSON.parse(savedCols)
+            const response = await api.get('/columns')
+            setColumns(response.data)
         } catch (error) {
-            console.error('Error parsing columns from storage', error)
-            return DEFAULT_COLUMNS
+            console.error('Error fetching columns', error)
         }
-    }
-    return DEFAULT_COLUMNS
-}
-
-interface ColumnProviderProps {
-    children: ReactNode
-}
-
-export default function ColumnProvider({ children }: ColumnProviderProps) {
-    const [columns, dispatch] = useReducer(columnReducer, [], initColumns)
+    }, [])
 
     useEffect(() => {
-        localStorage.setItem('board_columns', JSON.stringify(columns))
-    }, [columns])
+        fetchColumns()
+    }, [fetchColumns])
 
-    const addColumn = useCallback((title: string, color?: string) => {
-        if (!title || !title.trim()) return
+    const addColumn = useCallback(
+        async (title: string, color?: string) => {
+            if (!title.trim()) return
+            try {
+                await api.post('/columns', { title: title.trim(), color })
+                fetchColumns()
+            } catch (error) {
+                console.error('Error adding column', error)
+            }
+        },
+        [fetchColumns]
+    )
 
-        const formattedStatus = title
-            .trim()
-            .toLowerCase()
-            .replace(/\s+/g, '-') as TaskStatus
+    const updateColumn = useCallback(
+        async (id: string, updates: Partial<Column>) => {
+            try {
+                setColumns((prev) =>
+                    prev.map((col) =>
+                        col.id === id ? { ...col, ...updates } : col
+                    )
+                )
 
-        const newColumn: Column = {
-            id: Date.now().toString(),
-            title: title.trim(),
-            status: formattedStatus,
-            color: color || 'bg-gray-500',
-        }
+                await api.patch(`/columns/${id}`, updates)
+            } catch (error) {
+                console.error('Error updating column', error)
+                fetchColumns()
+            }
+        },
+        [fetchColumns]
+    )
 
-        dispatch({
-            type: COLUMN_ACTIONS.CREATE_COLUMN,
-            payload: newColumn,
-        })
-    }, [])
-
-    const updateColumn = useCallback((id: string, updates: Partial<Column>) => {
-        dispatch({
-            type: COLUMN_ACTIONS.UPDATE_COLUMN,
-            payload: { id, ...updates },
-        })
-    }, [])
-
-    const deleteColumn = useCallback((id: string) => {
-        dispatch({
-            type: COLUMN_ACTIONS.DELETE_COLUMN,
-            payload: id,
-        })
-    }, [])
+    const deleteColumn = useCallback(
+        async (id: string) => {
+            try {
+                setColumns((prev) => prev.filter((col) => col.id !== id))
+                await api.delete(`/columns/${id}`)
+            } catch (error) {
+                console.error('Error deleting column', error)
+                fetchColumns()
+            }
+        },
+        [fetchColumns]
+    )
 
     const value = useMemo(
         () => ({
@@ -97,10 +98,7 @@ export default function ColumnProvider({ children }: ColumnProviderProps) {
 
 export const useColumns = () => {
     const context = useContext(ColumnContext)
-
     if (!context)
         throw new Error('useColumns must be used within ColumnProvider')
     return context
 }
-
-export { ColumnContext }

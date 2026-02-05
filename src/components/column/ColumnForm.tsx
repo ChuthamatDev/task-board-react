@@ -6,7 +6,7 @@ import { COLUMN_COLORS } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface ColumnFormProps {
-    onSave: (title: string, color: string) => void
+    onSave: (title: string) => void
     onCancel: () => void
     initialData?: {
         title?: string
@@ -36,7 +36,7 @@ export default function ColumnForm({
             return
         }
 
-        onSave(title, selectedColor)
+        onSave(title)
     }
 
     return (
@@ -55,9 +55,6 @@ export default function ColumnForm({
             </div>
 
             <div>
-                <span className="text-xs text-app-subtle mb-2 mt-1 block">
-                    {trans('column_select_color')}
-                </span>
                 <div className="flex flex-wrap gap-3">
                     {Object.entries(COLUMN_COLORS).map(([name, colorClass]) => (
                         <button

@@ -1,3 +1,4 @@
+// src/components/column/TaskColumn.tsx
 import { memo } from 'react'
 import { useDroppable } from '@dnd-kit/core'
 import clsx from 'clsx'
@@ -7,29 +8,26 @@ import ColumnContainer from './ColumnContainer'
 import ColumnForm from './ColumnForm'
 import ConfirmDialog from '../dialog/ConfirmDialog'
 import { useColumnForm } from '../../hooks/column/useColumnForm'
-import { Task } from '../../utils/storage'
+import { Task, Column } from '../../utils/storage' // เพิ่ม Import Column
 import { useLanguage } from '../../contexts/LanguageContext'
 
+// 1. ปรับ Interface ให้รับ Column object ทั้งก้อน
 interface TaskColumnProps {
-    id: string
-    title: string
-    status: string
-    color: string
+    column: Column
     tasks: Task[]
     onEdit?: (task: Task) => void
 }
 
 function TaskColumn({
-    id,
-    title,
+    column, // รับเป็นก้อน
     tasks,
-    status,
-    color,
     onEdit,
 }: TaskColumnProps) {
-    const { setNodeRef, isOver } = useDroppable({ id: status })
+    // 2. ใช้ column.id เป็น ID สำหรับ Drop Zone
+    const { setNodeRef, isOver } = useDroppable({ id: column.id })
     const { trans } = useLanguage()
 
+    // ใช้ ID ของ Column เพื่อจัดการ Form (ลบ/แก้ไข)
     const {
         isEditing,
         setIsEditing,
@@ -38,7 +36,10 @@ function TaskColumn({
         handleSaveEdit,
         handleDeleteClick,
         handleConfirmDelete,
-    } = useColumnForm(id)
+    } = useColumnForm(column.id)
+
+    // *หมายเหตุ: ถ้า Database ยังไม่มี field color ให้ใส่ค่า default ไปก่อน
+    // const displayColor = column.color || 'bg-gray-500'
 
     return (
         <ColumnContainer
@@ -49,16 +50,19 @@ function TaskColumn({
                 <div className="flex-none p-3 border-b border-app-border/50 bg-inherit rounded-t-xl z-10">
                     {isEditing ? (
                         <ColumnForm
-                            initialData={{ title, color }}
+                            initialData={{
+                                title: column.title,
+                                //color: displayColor,
+                            }}
                             onSave={handleSaveEdit}
                             onCancel={() => setIsEditing(false)}
                         />
                     ) : (
                         <ColumnHeader
-                            title={title}
-                            status={status}
+                            title={column.title}
+                            status={column.id} // ส่ง ID ไปแทน status เดิม
                             count={tasks.length}
-                            color={color}
+                            
                             onEditClick={() => setIsEditing(true)}
                             onDeleteClick={handleDeleteClick}
                         />
@@ -74,6 +78,7 @@ function TaskColumn({
                             isOver ? 'bg-app-primary/5' : 'bg-transparent'
                         )}
                     >
+                        {/* ส่ง Tasks เข้าไปแสดงผล */}
                         <TaskList tasks={tasks} onEdit={onEdit} />
 
                         {tasks.length === 0 && (
@@ -99,7 +104,7 @@ function TaskColumn({
                 onClose={() => setIsConfirmOpen(false)}
                 onConfirm={handleConfirmDelete}
                 title="Delete Column"
-                message={`${trans('dialog_del_desc')} "${title}"?`}
+                message={`${trans('dialog_del_desc')} "${column.title}"?`}
             />
         </ColumnContainer>
     )

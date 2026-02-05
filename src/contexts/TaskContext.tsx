@@ -1,148 +1,103 @@
+// src/contexts/TaskContext.tsx
 import {
     createContext,
-    useEffect,
-    useReducer,
     useCallback,
-    useMemo,
     useState,
-    ReactNode,
+    useEffect,
     useContext,
+    ReactNode,
 } from 'react'
-import { taskReducer, TASK_ACTIONS } from '../reducer/taskReducer'
-import { taskDefault, Task, TaskStatus } from '../utils/storage'
+import { Task } from '../utils/storage'
+import api from '../services/api' // Import ตัวที่เราสร้าง
 
 interface TaskContextType {
     taskItems: Task[]
     isLoading: boolean
-    createTask: (taskData: Omit<Task, 'id' | 'createdAt' | 'status'>) => void
-    updateTask: (id: string, updates: Partial<Task>) => void
-    moveTask: (id: string, status: TaskStatus) => void
-    reorderTask: (activeId: string, overId: string) => void
-    removeFromTask: (id: string) => void
-    clearTask: () => void
-    refetchTask: () => Promise<void>
+    createTask: (taskData: any) => Promise<void>
+    updateTask: (id: string, updates: Partial<Task>) => Promise<void>
+    deleteTask: (id: string) => Promise<void>
+    fetchTasks: () => Promise<void>
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined)
 
-interface TaskProviderProps {
-    children: ReactNode
-}
-
-export default function TaskProvider({ children }: TaskProviderProps) {
-    const [taskItems, dispatch] = useReducer(taskReducer, [])
+export default function TaskProvider({ children }: { children: ReactNode }) {
+    const [taskItems, setTaskItems] = useState<Task[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const performFetch = useCallback(async () => {
+    const fetchTasks = useCallback(async () => {
         setIsLoading(true)
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-
-            const saved = localStorage.getItem('todos')
-            const initialData: Task[] = saved ? JSON.parse(saved) : taskDefault
-
-            dispatch({ type: TASK_ACTIONS.INIT_TASK, payload: initialData })
+            const res = await api.get('/tasks')
+            setTaskItems(res.data)
         } catch (error) {
-            console.error('Fetching Data error:', error)
-            dispatch({ type: TASK_ACTIONS.INIT_TASK, payload: taskDefault })
+            console.error('Error fetching:', error)
         } finally {
             setIsLoading(false)
         }
     }, [])
 
     useEffect(() => {
-        performFetch()
-    }, [performFetch])
-
-    useEffect(() => {
-        if (!isLoading) {
-            localStorage.setItem('todos', JSON.stringify(taskItems))
-        }
-    }, [taskItems, isLoading])
+        fetchTasks()
+    }, [fetchTasks])
 
     const createTask = useCallback(
-        (taskData: Omit<Task, 'id' | 'createdAt' | 'status'>) => {
-            const newTask: Task = {
-                id: Date.now().toString(),
-                ...taskData,
-                status: 'draft',
-                createdAt: new Date().toISOString(),
+        async (taskData: any) => {
+            try {
+                const defaultColumnId = 'ไอดีของคอลัมน์แรก'
+
+                await api.post('/tasks', {
+                    ...taskData,
+                    columnId: defaultColumnId,
+                })
+                fetchTasks()
+            } catch (error) {
+                console.error(error)
             }
-            dispatch({ type: TASK_ACTIONS.ADD_TASK, payload: newTask })
         },
-        [dispatch]
+        [fetchTasks]
     )
 
     const updateTask = useCallback(
-        (id: string, updates: Partial<Task>) => {
-            dispatch({
-                type: TASK_ACTIONS.UPDATE_TASK,
-                payload: { id, ...updates },
-            })
+        async (id: string, updates: Partial<Task>) => {
+            try {
+                setTaskItems((prev) =>
+                    prev.map((t) => (t.id === id ? { ...t, ...updates } : t))
+                )
+
+                await api.patch(`/tasks/${id}`, updates)
+            } catch (error) {
+                console.error(error)
+                fetchTasks()
+            }
         },
-        [dispatch]
+        [fetchTasks]
     )
 
-    const moveTask = useCallback(
-        (id: string, status: TaskStatus) => {
-            dispatch({
-                type: TASK_ACTIONS.UPDATE_TASK,
-                payload: { id, status },
-            })
+    const deleteTask = useCallback(
+        async (id: string) => {
+            try {
+                setTaskItems((prev) => prev.filter((t) => t.id !== id))
+                await api.delete(`/tasks/${id}`)
+            } catch (error) {
+                console.error(error)
+                fetchTasks()
+            }
         },
-        [dispatch]
-    )
-
-    const removeFromTask = useCallback(
-        (id: string) => {
-            dispatch({ type: TASK_ACTIONS.DELETE_TASK, payload: id })
-        },
-        [dispatch]
-    )
-
-    const reorderTask = useCallback(
-        (activeId: string, overId: string) => {
-            dispatch({
-                type: TASK_ACTIONS.REORDER_TASK,
-                payload: { activeId, overId },
-            })
-        },
-        [dispatch]
-    )
-
-    const clearTask = useCallback(() => {
-        dispatch({ type: TASK_ACTIONS.CLEAR_TASK })
-    }, [dispatch])
-
-    const refetchTask = performFetch
-
-    const contextValue = useMemo(
-        () => ({
-            taskItems,
-            isLoading,
-            createTask,
-            updateTask,
-            removeFromTask,
-            clearTask,
-            refetchTask,
-            moveTask,
-            reorderTask,
-        }),
-        [
-            taskItems,
-            isLoading,
-            createTask,
-            updateTask,
-            removeFromTask,
-            clearTask,
-            refetchTask,
-            moveTask,
-            reorderTask,
-        ]
+        [fetchTasks]
     )
 
     return (
-        <TaskContext.Provider value={contextValue}>
+        <TaskContext.Provider
+            value={{
+                taskItems,
+                isLoading,
+                createTask,
+                updateTask,
+                deleteTask,
+                fetchTasks,
+            }}
+        >
             {children}
         </TaskContext.Provider>
     )
@@ -150,12 +105,6 @@ export default function TaskProvider({ children }: TaskProviderProps) {
 
 export const useTasks = () => {
     const context = useContext(TaskContext)
-
-    if (!context) {
-        throw new Error('useTask must be used within a taskContext')
-    }
-
+    if (!context) throw new Error('useTasks must be used within TaskProvider')
     return context
 }
-
-export { TaskContext }

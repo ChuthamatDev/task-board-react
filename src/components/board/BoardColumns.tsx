@@ -1,77 +1,33 @@
-import { memo, useMemo, useState } from 'react'
-import { PlusIcon } from '@heroicons/react/24/outline'
-import BoardLayout from './BoardLayout'
-import Button from '../ui/Button'
-import TaskColumn from '../column/TaskColumn'
-import ColumnForm from '../column/ColumnForm'
-import { useAlert } from '../../contexts/AlertContext'
 import { useColumns } from '../../contexts/ColumnContext'
+import TaskColumn from '../column/TaskColumn'
 import { Task } from '../../utils/storage'
-import { useLanguage } from '../../contexts/LanguageContext'
 
 interface BoardColumnsProps {
     tasks: Task[]
     onEdit: (task: Task) => void
 }
 
-const BoardColumns = ({ tasks, onEdit }: BoardColumnsProps) => {
-    const { columns, addColumn } = useColumns()
-    const { setAlert } = useAlert()
-    const { trans } = useLanguage()
-    const [isCreating, setIsCreating] = useState(false)
+export default function BoardColumns({ tasks, onEdit }: BoardColumnsProps) {
+    const { columns } = useColumns()
 
-    const tasksByStatus = useMemo(() => {
-        return tasks.reduce(
-            (acc, task) => {
-                if (!acc[task.status]) {
-                    acc[task.status] = []
-                }
-                acc[task.status].push(task)
-                return acc
-            },
-            {} as Record<string, Task[]>
-        )
-    }, [tasks])
-
-    const handleSaveColumn = (title: string, color: string) => {
-        addColumn(title, color)
-        setIsCreating(false)
-        setAlert(`${trans('alert_create_success')}`, 'success')
-    }
+    const sortedColumns = [...columns].sort((a, b) => a.position - b.position)
 
     return (
-        <BoardLayout>
-            {columns.map((col) => (
-                <TaskColumn
-                    key={col.id}
-                    id={col.id}
-                    title={col.title}
-                    status={col.status}
-                    color={col.color}
-                    tasks={tasksByStatus[col.status] || []}
-                    onEdit={onEdit}
-                />
-            ))}
+        <>
+            {sortedColumns.map((col) => {
+                const columnTasks = tasks
+                    .filter((t) => t.columnId === col.id)
+                    .sort((a, b) => a.position - b.position)
 
-            <div className="shrink-0 w-80">
-                {isCreating ? (
-                    <ColumnForm
-                        onSave={handleSaveColumn}
-                        onCancel={() => setIsCreating(false)}
+                return (
+                    <TaskColumn
+                        key={col.id}
+                        column={col}
+                        tasks={columnTasks}
+                        onEdit={onEdit}
                     />
-                ) : (
-                    <Button
-                        variant="secondary"
-                        onClick={() => setIsCreating(true)}
-                        className="w-full h-[50px] border-dashed border-2 bg-transparent hover:bg-app-surface/50 text-app-subtle hover:text-app-primary hover:border-app-primary transition-all"
-                    >
-                        <PlusIcon className="w-5 h-5 mr-2" />
-                        {trans('btn_new_column')}
-                    </Button>
-                )}
-            </div>
-        </BoardLayout>
+                )
+            })}
+        </>
     )
 }
-
-export default memo(BoardColumns)
