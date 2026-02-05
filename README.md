@@ -28,7 +28,8 @@ Designed to demonstrate modern frontend architecture, complex state management, 
 - **Responsive Design:** Mobile-first approach, optimized for phones, tablets, and desktops.
 
 ### 💾 Data Persistence
-- **Local Storage:** All data (Tasks, Theme, Language) is persisted locally. Data remains available after a page refresh.
+- **Backend API:** Task and column data is persisted via RESTful API with JWT authentication.
+- **Local Storage:** Theme and language preferences are stored locally for instant loading.
 
 ---
 
@@ -54,12 +55,22 @@ Designed to demonstrate modern frontend architecture, complex state management, 
 
 ## 💻 Tech Stack
 
-- **Framework:** React 18 (Vite)
+### Frontend
+- **Framework:** React 19 (Vite)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS, Headless UI
+- **Styling:** Tailwind CSS 4, Headless UI, Material-UI
 - **Drag & Drop:** @dnd-kit (Core, Sortable, Utilities)
+- **HTTP Client:** Axios
 - **Icons:** Heroicons
 - **Tools:** ESLint, Prettier
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **Authentication:** JWT (JSON Web Tokens)
+- **Deployment:** Docker & Docker Compose
 
 ---
 
