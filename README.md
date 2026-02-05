@@ -67,7 +67,7 @@ Designed to demonstrate modern frontend architecture, complex state management, 
 ### Backend
 - **Runtime:** Node.js
 - **Framework:** Express.js
-- **Database:** PostgreSQL
+- **Database:** MySQL
 - **ORM:** Prisma
 - **Authentication:** JWT (JSON Web Tokens)
 - **Deployment:** Docker & Docker Compose
