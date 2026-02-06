@@ -1,17 +1,16 @@
-# Modern Kanban Board 🚀
+# Modern Kanban Board - Frontend 🚀
 
-A robust, full-stack task management application built with **React**, **TypeScript**, **Node.js**, and **MySQL**.  
-Designed to demonstrate modern full-stack architecture, RESTful API design, JWT authentication, and high-performance drag-and-drop interactions.
+A robust, Jira-style task management application built with **React** and **TypeScript**.  
+Designed to demonstrate modern frontend architecture, complex state management, and high-performance drag-and-drop interactions.
 
-- 🔗 **Frontend Repository:** [task-board-react](https://github.com/phraewchuthamat/task-board-react)
-- � **Backend Repository:** [task-board-api](https://github.com/phraewchuthamat/task-board-api)
+- 🔗 **Live Demo:** [Click Here](https://phraewchuthamat.github.io/task-board-react/)
+- 📂 **Frontend Repository:** [task-board-react](https://github.com/phraewchuthamat/task-board-react)
+- 🔗 **Backend Repository:** [task-board-api](https://github.com/phraewchuthamat/task-board-api)
 
 ![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
-![Node.js](https://img.shields.io/badge/Node.js-LTS-green?style=for-the-badge&logo=node.js)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
+![Vite](https://img.shields.io/badge/Vite-Fast-646CFF?style=for-the-badge&logo=vite)
 
 ---
 
@@ -22,7 +21,7 @@ Designed to demonstrate modern full-stack architecture, RESTful API design, JWT 
 - **Drag & Drop:** Fully interactive board using `@dnd-kit`. Supports **reordering** tasks within columns and **moving** tasks between columns with smooth animations
 - **CRUD Operations:** Create, Read, Update, and Delete tasks with real-time UI updates
 - **Search & Filter:** Instant search by title/description and filter by priority (Low, Medium, High)
-- **JWT Authentication:** Secure user authentication with access and refresh tokens
+- **JWT Authentication:** Secure user authentication with login/logout functionality
 
 ### 🎨 User Experience (UX)
 - **Jira-like Layout:** Fixed viewport height with independent internal scrolling for columns and horizontal scrolling for the board
@@ -32,34 +31,36 @@ Designed to demonstrate modern full-stack architecture, RESTful API design, JWT 
 - **Responsive Design:** Mobile-first approach, optimized for phones, tablets, and desktops
 
 ### 💾 Data Persistence
-- **Backend API:** Task and column data is persisted via RESTful API with JWT authentication
-- **MySQL Database:** Relational database with Prisma ORM for type-safe queries
+- **Backend API Integration:** Task and column data is persisted via RESTful API with JWT authentication
 - **Local Storage:** Theme and language preferences are stored locally for instant loading
+- **Optimistic Updates:** Immediate UI feedback before API confirmation
 
 ---
 
 ## 🛠️ Technical Highlights
 
-### 1. Full-Stack Architecture
-- **Frontend:** React 19 + TypeScript + Vite
-- **Backend:** Node.js + Express.js + TypeScript
-- **Database:** MySQL 8.0 with Prisma ORM
-- **Authentication:** JWT (JSON Web Tokens) with refresh token rotation
-- **Deployment:** Docker & Docker Compose for containerization
+### 1. Architecture & State Management
+- **Context API:** Centralized state management system for tasks, columns, authentication, theme, and language
+- **Custom Hooks:** Logic abstracted into reusable hooks like `useBoardDrag`, `useTaskModal`, `useAuth`, and `useLanguage` to maintain **Separation of Concerns**
 
-### 2. State Management
-- **Context API:** Centralized state management for tasks, columns, authentication, theme, and language
-- **Custom Hooks:** Logic abstraction with reusable hooks like `useBoardDrag`, `useTaskModal`, `useAuth`
+### 2. TypeScript Integration
+- Fully typed codebase with interfaces for `Task`, `Column`, `Priority`, `User`
+- Strict type checking to prevent runtime errors and improve code maintainability
 
-### 3. TypeScript Integration
-- Fully typed codebase across frontend and backend
-- Strict type checking to prevent runtime errors
-- Prisma-generated types for database models
+### 3. Performance Optimization
+- **React.memo:** Used on `TaskCard` and `TaskColumn` to prevent unnecessary re-renders during drag operations
+- **Event Delegation:** Optimized touch/click sensors in `dnd-kit` to handle conflict between dragging and button clicking
+- **Code Splitting:** Dynamic imports for optimal bundle size
 
-### 4. Performance Optimization
-- **React.memo:** Prevents unnecessary re-renders during drag operations
-- **Optimistic Updates:** Immediate UI feedback before API confirmation
-- **Event Delegation:** Optimized touch/click sensors in `dnd-kit`
+### 4. API Integration
+- **Axios Interceptors:** Automatic token injection and refresh token handling
+- **Error Handling:** Comprehensive error handling with user-friendly messages
+- **Protected Routes:** Route guards to prevent unauthorized access
+
+### 5. Accessibility & Polish
+- **Accessible Colors:** High contrast colors for text and badges
+- **Confirm Dialogs:** Defensive UX design to prevent accidental data loss
+- **Loading States:** Skeleton screens and loading indicators
 
 ---
 
@@ -70,33 +71,31 @@ Designed to demonstrate modern full-stack architecture, RESTful API design, JWT 
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS 4, Headless UI, Material-UI
 - **Drag & Drop:** @dnd-kit (Core, Sortable, Utilities)
-- **HTTP Client:** Axios with interceptors for auth
+- **HTTP Client:** Axios with interceptors
+- **Routing:** React Router v6
 - **Icons:** Heroicons
 - **Tools:** ESLint, Prettier
 
 ### Backend
+> **Note:** This is a frontend repository. For backend setup and API documentation, please visit the [task-board-api](https://github.com/phraewchuthamat/task-board-api) repository.
+
 - **Runtime:** Node.js
 - **Framework:** Express.js
-- **Language:** TypeScript
-- **Database:** MySQL 8.0
-- **ORM:** Prisma
+- **Database:** MySQL 8.0 with Prisma ORM
 - **Authentication:** JWT (JSON Web Tokens)
-- **Password Hashing:** bcryptjs
-- **Security:** Helmet, CORS
 - **Deployment:** Docker & Docker Compose
 
 ---
 
 ## 📂 Project Structure
 
-### Frontend (task-board-react)
 ```bash
 src/
 ├── assets/           # Static resources
 ├── components/       # UI Components
 │   ├── AlertPopup/   # Alert/Notification components
 │   ├── board/        # Main Board Layout, Header, Logic
-│   ├── column/       # Column components (TaskColumn, AddColumnButton)
+│   ├── column/       # Column components (TaskColumn, AddColumnButton, ColumnForm)
 │   ├── dialog/       # Confirmation Dialogs
 │   ├── TaskCard/     # Draggable Task Card components
 │   ├── TaskList/     # Task List Container (Droppable area)
@@ -104,37 +103,31 @@ src/
 │   ├── ui/           # Reusable UI elements (Buttons, Inputs, etc.)
 │   └── Navbar.tsx    # Top Navigation Bar with logout
 ├── contexts/         # React Context Providers
-│   ├── AuthContext.tsx      # Authentication state
-│   ├── TaskContext.tsx      # Task management
-│   ├── ColumnContext.tsx    # Column management
+│   ├── AuthContext.tsx      # Authentication state management
+│   ├── TaskContext.tsx      # Task CRUD operations
+│   ├── ColumnContext.tsx    # Column CRUD operations
 │   ├── ThemeContext.tsx     # Dark/Light mode
-│   └── LanguageContext.tsx  # i18n
+│   ├── LanguageContext.tsx  # i18n (English/Thai)
+│   └── AlertContext.tsx     # Global alerts
 ├── hooks/            # Custom Hooks (Logic abstraction)
-├── pages/            # Page components (SignIn, SignUp, KanbanBoard)
-├── routes/           # Route protection (ProtectedRoute)
-├── services/         # API service (axios instance)
-├── utils/            # Helper functions, i18n translations
-└── App.tsx           # Main Application Entry
-```
-
-### Backend (task-board-api)
-```bash
-src/
-├── controllers/      # Business Logic
-│   ├── authController.ts    # Register, Login, Refresh Token
-│   ├── taskController.ts    # Task CRUD operations
-│   └── columnController.ts  # Column CRUD operations
-├── routes/           # API Routes
-│   ├── authRoutes.ts
-│   ├── taskRoutes.ts
-│   └── columnRoutes.ts
-├── middlewares/      # Middleware Functions
-│   └── authMiddleware.ts    # JWT verification
-├── prisma.ts         # Prisma Client Instance
-└── app.ts            # Main Application
-prisma/
-├── schema.prisma     # Database Schema
-└── migrations/       # Database Migrations
+│   ├── useBoardDrag.ts      # Drag & drop logic
+│   ├── useTaskModal.ts      # Task modal state
+│   ├── useColumnForm.ts     # Column form logic
+│   └── useKanban.ts         # Kanban board logic
+├── pages/            # Page components
+│   ├── SignIn.tsx           # Login page
+│   ├── SignUp.tsx           # Registration page
+│   ├── KanbanBoard.tsx      # Main board page
+│   └── AppLayout.tsx        # Layout wrapper
+├── routes/           # Route protection
+│   └── ProtectedRoute.tsx   # Auth guard
+├── services/         # API service layer
+│   └── api.ts               # Axios instance with interceptors
+├── utils/            # Helper functions
+│   ├── i18n.ts              # Translation definitions
+│   ├── formatters.ts        # Data formatters
+│   └── storage.ts           # Type definitions
+└── App.tsx           # Main Application Entry with routing
 ```
 
 ---
@@ -143,314 +136,171 @@ prisma/
 
 ### Prerequisites
 - Node.js (LTS version)
-- MySQL 8.0 (or use Docker)
 - npm or yarn
+- Backend API running (see [task-board-api](https://github.com/phraewchuthamat/task-board-api))
 
-### Option 1: Full-Stack with Docker Compose (Recommended)
+### Installation
 
-This will run both frontend, backend, and MySQL database together.
-
-#### 1. Clone both repositories
+#### 1. Clone the repository
 ```bash
-# Clone backend
-git clone https://github.com/phraewchuthamat/task-board-api.git
-
-# Clone frontend
 git clone https://github.com/phraewchuthamat/task-board-react.git
-```
-
-#### 2. Setup Backend
-```bash
-cd task-board-api
-
-# Create .env file
-cat > .env << EOF
-DATABASE_URL="mysql://root:rootpassword@db:3306/taskboard_db"
-JWT_SECRET="your_secret_key_here"
-PORT=4000
-EOF
-```
-
-#### 3. Run Docker Compose
-```bash
-# Start all services (Backend + Database + Frontend)
-docker-compose up -d --build
-
-# Run Prisma Migration (first time only)
-docker exec -it taskboard-api sh
-npx prisma migrate deploy
-exit
-```
-
-#### 4. Access the application
-- **Frontend:** http://localhost:8080
-- **Backend API:** http://localhost:4000
-- **MySQL:** localhost:3307
-
-### Option 2: Local Development
-
-#### Backend Setup
-
-```bash
-cd task-board-api
-
-# Install dependencies
-npm install
-
-# Create .env file
-cat > .env << EOF
-DATABASE_URL="mysql://root:rootpassword@localhost:3306/taskboard_db"
-JWT_SECRET="your_secret_key_here"
-PORT=4000
-EOF
-
-# Run MySQL (using Docker)
-docker run --name mysql-taskboard \
-  -e MYSQL_ROOT_PASSWORD=rootpassword \
-  -e MYSQL_DATABASE=taskboard_db \
-  -p 3306:3306 -d mysql:8.0
-
-# Generate Prisma Client
-npx prisma generate
-
-# Run migrations
-npx prisma migrate dev --name init
-
-# Start backend server
-npx ts-node src/app.ts
-```
-
-#### Frontend Setup
-
-```bash
 cd task-board-react
+```
 
-# Install dependencies
+#### 2. Install dependencies
+```bash
 npm install
+```
 
-# Create .env file
+#### 3. Create environment file
+```bash
+# Create .env file in the root directory
 cat > .env << EOF
 VITE_API_URL=http://localhost:4000
 EOF
+```
 
-# Start development server
+> **Note:** Make sure to update `VITE_API_URL` to match your backend API URL.
+
+#### 4. Start the development server
+```bash
 npm run dev
 ```
 
-The frontend will be available at http://localhost:5173 (or 5174 if 5173 is in use)
+The application will be available at `http://localhost:5173` (or the next available port).
 
 ---
 
-## 📡 API Endpoints
+## � Available Scripts
 
-### 🔐 Authentication
+```bash
+# Start development server
+npm run dev
 
-#### Register
-```http
-POST /auth/register
-Content-Type: application/json
+# Build for production
+npm run build
 
-{
-  "username": "testuser",
-  "password": "password123"
-}
-```
+# Preview production build
+npm run preview
 
-#### Login
-```http
-POST /auth/login
-Content-Type: application/json
+# Lint code
+npm run lint
 
-{
-  "username": "testuser",
-  "password": "password123"
-}
-```
-
-**Response:**
-```json
-{
-  "message": "Login successful",
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "uuid",
-    "username": "testuser"
-  }
-}
-```
-
-### 📊 Columns (Protected)
-
-All column endpoints require `Authorization: Bearer <token>` header.
-
-#### Get All Columns
-```http
-GET /columns
-Authorization: Bearer <token>
-```
-
-#### Create Column
-```http
-POST /columns
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "In Progress"
-}
-```
-
-#### Update Column
-```http
-PATCH /columns/:id
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Done",
-  "position": 3000
-}
-```
-
-#### Delete Column
-```http
-DELETE /columns/:id
-Authorization: Bearer <token>
-```
-
-### ✅ Tasks (Protected)
-
-#### Get All Tasks
-```http
-GET /tasks
-Authorization: Bearer <token>
-```
-
-#### Create Task
-```http
-POST /tasks
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "New Task",
-  "description": "Task description",
-  "columnId": "uuid",
-  "priority": "medium"
-}
-```
-
-#### Update Task
-```http
-PATCH /tasks/:id
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Updated Task",
-  "description": "Updated description",
-  "columnId": "new-column-uuid",
-  "priority": "high",
-  "position": 2000
-}
-```
-
-#### Delete Task
-```http
-DELETE /tasks/:id
-Authorization: Bearer <token>
+# Format code
+npm run format
 ```
 
 ---
 
-## 🗄️ Database Schema
+## � Backend Setup
 
-```prisma
-model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String
-  columns   Column[]
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+This frontend requires a running backend API. Please follow the setup instructions in the [task-board-api](https://github.com/phraewchuthamat/task-board-api) repository.
 
-model Column {
-  id        String   @id @default(uuid())
-  title     String
-  position  Int      @default(1000)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+**Quick Backend Setup:**
+```bash
+# Clone backend repository
+git clone https://github.com/phraewchuthamat/task-board-api.git
+cd task-board-api
 
-model Task {
-  id          String   @id @default(uuid())
-  title       String
-  description String?  @db.Text
-  priority    String   @default("medium")
-  position    Int      @default(1000)
-  columnId    String
-  column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
+# Follow setup instructions in backend README
+# The backend will run on http://localhost:4000 by default
 ```
 
 ---
 
-## 🔒 Security Features
+## � API Integration
 
-- **JWT Authentication:** Secure token-based authentication with refresh tokens
-- **Password Hashing:** bcryptjs for secure password storage
-- **CORS Protection:** Configured CORS for allowed origins
-- **Helmet.js:** Security headers for Express.js
-- **Input Validation:** Server-side validation for all inputs
-- **SQL Injection Protection:** Prisma ORM prevents SQL injection
+The frontend communicates with the backend API using Axios. All API calls are handled through the `src/services/api.ts` file.
+
+### Authentication Flow
+1. User logs in via `/auth/login`
+2. Backend returns `accessToken` and `refreshToken`
+3. Tokens are stored in `localStorage`
+4. Axios interceptor automatically adds `Authorization` header to all requests
+5. If token expires, interceptor automatically refreshes it
+
+### Protected Routes
+- `/dashboard` - Main Kanban board (requires authentication)
+- `/login` - Login page (public)
+- `/register` - Registration page (public)
+
+---
+
+## 🎨 Customization
+
+### Theme
+- Modify `src/contexts/ThemeContext.tsx` for theme logic
+- Update Tailwind config in `tailwind.config.js` for colors
+
+### Language
+- Add new translations in `src/utils/i18n.ts`
+- Support for English and Thai out of the box
+
+### Styling
+- All components use Tailwind CSS
+- Custom styles in component files
+- Global styles in `src/index.css`
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Frontend Issues
-
-**403 Forbidden Error:**
+### 403 Forbidden Error
 - Make sure you're logged in
 - Check if `accessToken` exists in localStorage (DevTools → Application → Local Storage)
 - Try logging out and logging in again
+- Ensure backend is running and accessible
 
-**CORS Error:**
+### CORS Error
 - Ensure backend is running on the correct port (default: 4000)
 - Check backend CORS configuration allows your frontend origin
+- Update `VITE_API_URL` in `.env` if backend port is different
 
-### Backend Issues
-
-**Database Connection Failed:**
+### Port Already in Use
 ```bash
-# Check if MySQL is running
-docker ps
-
-# Restart MySQL container
-docker restart mysql-taskboard
+# Vite will automatically use the next available port
+# Check the terminal output for the actual port number
 ```
 
-**Prisma Client Not Working:**
+### Build Errors
 ```bash
-# Regenerate Prisma Client
-npx prisma generate
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+
+# Clear Vite cache
+rm -rf .vite
 ```
 
-**Port Already in Use:**
+---
+
+## 🚢 Deployment
+
+### Build for Production
 ```bash
-# Change PORT in .env file
-PORT=5000
+npm run build
 ```
+
+This creates an optimized production build in the `dist/` folder.
+
+### Deploy to GitHub Pages
+```bash
+# Install gh-pages
+npm install --save-dev gh-pages
+
+# Add to package.json scripts:
+"predeploy": "npm run build",
+"deploy": "gh-pages -d dist"
+
+# Deploy
+npm run deploy
+```
+
+### Deploy to Vercel/Netlify
+1. Connect your GitHub repository
+2. Set build command: `npm run build`
+3. Set output directory: `dist`
+4. Add environment variable: `VITE_API_URL=<your-backend-url>`
 
 ---
 
@@ -467,11 +317,13 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🎯 Next Steps
+## 🎯 Future Enhancements
 
 - [ ] Add real-time updates with WebSockets
-- [ ] Implement task comments and attachments
-- [ ] Add user profile management
-- [ ] Implement team collaboration features
-- [ ] Add email notifications
-- [ ] Deploy to production (Vercel + Railway/Render)
+- [ ] Implement task comments
+- [ ] Add file attachments to tasks
+- [ ] User profile management
+- [ ] Team collaboration features
+- [ ] Email notifications
+- [ ] Mobile app (React Native)
+- [ ] Offline mode with service workers
