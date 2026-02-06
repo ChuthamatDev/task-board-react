@@ -38,9 +38,10 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
         setIsLoading(true)
         try {
             const res = await api.get('/tasks')
-            setTaskItems(res.data)
+            setTaskItems(res.data?.data || [])
         } catch (error) {
             console.error('Error fetching:', error)
+            setTaskItems([])
         } finally {
             setIsLoading(false)
         }

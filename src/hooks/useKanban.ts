@@ -6,11 +6,14 @@ export function useKanban() {
     const [searchQuery, setSearchQuery] = useState('')
     const [filterPriority, setFilterPriority] = useState<Priority | ''>('')
 
-    // ดึง updateTask มาใช้แทน moveTask/reorderTask เดิม
     const { taskItems, updateTask, isLoading } = useTasks()
 
-    // Filter Logic (เหมือนเดิม)
     const filteredTasks = useMemo(() => {
+        if (!Array.isArray(taskItems)) {
+            console.warn('taskItems is not an array:', taskItems)
+            return []
+        }
+
         return taskItems.filter((task) => {
             const matchesSearch =
                 !searchQuery.trim() ||
@@ -24,14 +27,10 @@ export function useKanban() {
         })
     }, [taskItems, searchQuery, filterPriority])
 
-    // --- ส่วนใหม่: Logic คำนวณ Position สำหรับ API ---
-
-    // ฟังก์ชันคำนวณ Position ตรงกลางระหว่าง 2 การ์ด
     const calculateNewPosition = (
         tasksInColumn: Task[],
         newIndex: number
     ): number => {
-        // เรียงงานใน Column ตาม Position เดิมก่อน
         const sortedTasks = [...tasksInColumn].sort(
             (a, b) => a.position - b.position
         )
@@ -39,11 +38,11 @@ export function useKanban() {
         const prevTask = sortedTasks[newIndex - 1]
         const nextTask = sortedTasks[newIndex]
 
-        if (!prevTask && !nextTask) return 1000 // กรณี Column ว่าง
-        if (!prevTask) return nextTask.position / 2 // กรณีใส่บนสุด
-        if (!nextTask) return prevTask.position + 1000 // กรณีใส่ล่างสุด
+        if (!prevTask && !nextTask) return 1000
+        if (!prevTask) return nextTask.position / 2
+        if (!nextTask) return prevTask.position + 1000
 
-        return (prevTask.position + nextTask.position) / 2 // กรณีแทรกกลาง
+        return (prevTask.position + nextTask.position) / 2
     }
 
     const moveTask = useCallback(

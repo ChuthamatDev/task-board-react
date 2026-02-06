@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import Button from '../components/ui/Button'
@@ -30,7 +30,6 @@ export default function SignUp() {
 
         let isValid = true
 
-        // เปลี่ยน Logic ตรวจสอบเป็น Username
         if (!username || username.trim().length === 0) {
             setUsernameError(true)
             setUsernameErrorMessage('Please enter a username.')
@@ -52,16 +51,10 @@ export default function SignUp() {
         try {
             const res = await api.post('/auth/register', { username, password })
 
-            login(
-                {
-                    accessToken: res.data.accessToken,
-                    refreshToken: res.data.refreshToken,
-                },
-                res.data.user
-            )
+            login(res.data.accessToken, res.data.user)
 
-            // Use window.location.href to ensure state is fully updated before navigation
-            window.location.href = '/dashboard'
+            navigate('/login')
+            setAlert(`${trans('register')}`, 'success')
         } catch (error: any) {
             console.error(error)
             const backendMsg =

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import Button from '../components/ui/Button'
@@ -45,18 +45,12 @@ export default function SignIn() {
         if (!isValid) return
 
         try {
-
             const res = await api.post('/auth/login', { username, password })
+            console.log('Login Response:', res.data)
+            login(res.data.accessToken, res.data.user)
 
-            login(
-                {
-                    accessToken: res.data.accessToken,
-                    refreshToken: res.data.refreshToken,
-                },
-                res.data.user
-            )
-
-            window.location.href = '/dashboard'
+            navigate('/dashboard')
+            setAlert(`${trans('login')}`, 'success')
         } catch (error: any) {
             console.error(error)
             const backendMsg =

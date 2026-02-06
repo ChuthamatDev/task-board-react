@@ -57,7 +57,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         btn_new_task: 'New Task',
         btn_edit: 'Edit',
         btn_delete: 'Delete',
-        btn_confirm: 'Yes, Delete it',
+        btn_confirm: 'Confirm',
         btn_cancel: 'Cancel',
         btn_save: 'Save',
         btn_refresh: 'Refresh',

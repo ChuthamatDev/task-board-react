@@ -1,10 +1,15 @@
-
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    ReactNode,
+} from 'react'
 
 interface AuthContextType {
     user: any | null
     isAuthenticated: boolean
-    login: (tokens: { accessToken: string; refreshToken: string }, userData: any) => void
+    login: (token: string, userData: any) => void
     logout: () => void
     isLoading: boolean
 }
@@ -17,12 +22,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         const initAuth = () => {
-
             const token = localStorage.getItem('accessToken')
-
-            if (token) {
-
-                setUser({ name: 'User' })
+            const storedUser = localStorage.getItem('userData')
+            if (token && storedUser) {
+                try {
+                    setUser(JSON.parse(storedUser))
+                } catch (e) {
+                    console.error('Failed to parse user data', e)
+                    setUser(null)
+                }
             } else {
                 setUser(null)
             }
@@ -32,20 +40,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         initAuth()
     }, [])
 
-    const login = (tokens: { accessToken: string; refreshToken: string }, userData: any) => {
-        localStorage.setItem('accessToken', tokens.accessToken)
-        localStorage.setItem('refreshToken', tokens.refreshToken)
+    const login = (token: string, userData: any) => {
+        localStorage.setItem('accessToken', token)
+        localStorage.setItem('userData', JSON.stringify(userData))
         setUser(userData)
     }
 
     const logout = () => {
-        localStorage.clear()
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('userData')
         setUser(null)
         window.location.href = '/login'
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, isLoading }}>
+        <AuthContext.Provider
+            value={{ user, isAuthenticated: !!user, login, logout, isLoading }}
+        >
             {children}
         </AuthContext.Provider>
     )

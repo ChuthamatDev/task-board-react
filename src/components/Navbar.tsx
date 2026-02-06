@@ -7,7 +7,20 @@ import { useAuth } from '../contexts/AuthContext'
 
 export default function Navbar() {
     const { trans } = useLanguage()
-    const { isAuthenticated, logout } = useAuth()
+    const { isAuthenticated, logout, user } = useAuth()
+
+    const getInitials = (name: string) => {
+        if (!name) return '?'
+        const parts = name.trim().split(' ')
+        if (parts.length > 1) {
+            return (parts[0][0] + parts[1][0]).toUpperCase()
+        }
+        return name.slice(0, 2).toUpperCase()
+    }
+
+    const displayName = user?.username || user?.name || user?.email || 'Guest'
+
+    console.log('displayName', displayName)
 
     return (
         <Disclosure
@@ -23,13 +36,19 @@ export default function Navbar() {
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-4">
                         <LanguageSwitcher />
 
-                        <div className="h-6 w-[1px] bg-app-border mx-2 hidden sm:block"></div>
-
                         <ThemeToggleButton />
 
                         {isAuthenticated && (
                             <>
-                                <div className="h-6 w-[1px] bg-app-border mx-2 hidden sm:block"></div>
+                                <div className="flex items-center gap-3">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-500 text-white font-semibold text-xs shadow-sm ring-2 ring-white dark:ring-gray-700 overflow-hidden">
+                                        {getInitials(displayName)}
+                                    </div>
+
+                                    <span className="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        {displayName}
+                                    </span>
+                                </div>
 
                                 <button
                                     onClick={logout}
@@ -37,7 +56,9 @@ export default function Navbar() {
                                     title="Logout"
                                 >
                                     <ArrowRightOnRectangleIcon className="h-5 w-5" />
-                                    <span className="hidden sm:inline">{trans('logout')}</span>
+                                    <span className="hidden sm:inline">
+                                        {trans('logout')}
+                                    </span>
                                 </button>
                             </>
                         )}
