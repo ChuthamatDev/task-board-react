@@ -1,5 +1,6 @@
 import { useColumns } from '../../contexts/ColumnContext'
 import TaskColumn from '../column/TaskColumn'
+import AddColumnButton from '../column/AddColumnButton'
 import { Task } from '../../utils/storage'
 
 interface BoardColumnsProps {
@@ -28,6 +29,8 @@ export default function BoardColumns({ tasks, onEdit }: BoardColumnsProps) {
                     />
                 )
             })}
+
+            <AddColumnButton />
         </>
     )
 }

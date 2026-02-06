@@ -12,15 +12,15 @@ import {
     MeasuringStrategy,
 } from '@dnd-kit/core'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
-import { useBoardDrag } from '../../hooks/useBoardDrag'
-import { useTaskModal } from '../../hooks/task/useTaskModal'
-import { useKanban } from '../../hooks/useKanban'
-import { useColumns } from '../../contexts/ColumnContext'
-import LoadingScreen from '../ui/LoadingScreen'
-import BoardHeader from './BoardHeader'
-import BoardColumns from './BoardColumns'
-import TaskCard from '../TaskCard/TaskCard'
-import TaskModal from '../TaskModal/TaskModal'
+import { useBoardDrag } from '../hooks/useBoardDrag'
+import { useTaskModal } from '../hooks/task/useTaskModal'
+import { useKanban } from '../hooks/useKanban'
+import { useColumns } from '../contexts/ColumnContext'
+import LoadingScreen from '../components/ui/LoadingScreen'
+import BoardHeader from '../components/board/BoardHeader'
+import BoardColumns from '../components/board/BoardColumns'
+import TaskCard from '../components/TaskCard/TaskCard'
+import TaskModal from '../components/TaskModal/TaskModal'
 
 const dropAnimationConfig: DropAnimation = {
     sideEffects: defaultDropAnimationSideEffects({

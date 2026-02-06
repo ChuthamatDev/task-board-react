@@ -9,6 +9,8 @@ import {
 } from 'react'
 import { Task } from '../utils/storage'
 import api from '../services/api' // Import ตัวที่เราสร้าง
+import { useColumns } from './ColumnContext'
+import { useAuth } from './AuthContext'
 
 interface TaskContextType {
     taskItems: Task[]
@@ -24,8 +26,15 @@ const TaskContext = createContext<TaskContextType | undefined>(undefined)
 export default function TaskProvider({ children }: { children: ReactNode }) {
     const [taskItems, setTaskItems] = useState<Task[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const { columns } = useColumns()
+    const { isAuthenticated } = useAuth()
 
     const fetchTasks = useCallback(async () => {
+        if (!isAuthenticated) {
+            setIsLoading(false)
+            return
+        }
+
         setIsLoading(true)
         try {
             const res = await api.get('/tasks')
@@ -35,7 +44,7 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
         } finally {
             setIsLoading(false)
         }
-    }, [])
+    }, [isAuthenticated])
 
     useEffect(() => {
         fetchTasks()
@@ -44,7 +53,12 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
     const createTask = useCallback(
         async (taskData: any) => {
             try {
-                const defaultColumnId = 'ไอดีของคอลัมน์แรก'
+                const defaultColumnId = columns[0]?.id
+
+                if (!defaultColumnId) {
+                    console.error('No columns available to create task')
+                    return
+                }
 
                 await api.post('/tasks', {
                     ...taskData,
@@ -55,7 +69,7 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
                 console.error(error)
             }
         },
-        [fetchTasks]
+        [fetchTasks, columns]
     )
 
     const updateTask = useCallback(

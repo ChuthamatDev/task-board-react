@@ -9,6 +9,7 @@ import {
 } from 'react'
 import { Column } from '../utils/storage'
 import api from '../services/api'
+import { useAuth } from './AuthContext'
 
 interface ColumnContextType {
     columns: Column[]
@@ -21,15 +22,20 @@ const ColumnContext = createContext<ColumnContextType | undefined>(undefined)
 
 export default function ColumnProvider({ children }: { children: ReactNode }) {
     const [columns, setColumns] = useState<Column[]>([])
+    const { isAuthenticated } = useAuth()
 
     const fetchColumns = useCallback(async () => {
+        if (!isAuthenticated) {
+            return
+        }
+
         try {
             const response = await api.get('/columns')
             setColumns(response.data)
         } catch (error) {
             console.error('Error fetching columns', error)
         }
-    }, [])
+    }, [isAuthenticated])
 
     useEffect(() => {
         fetchColumns()

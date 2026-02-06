@@ -19,15 +19,15 @@ interface TaskColumnProps {
 }
 
 function TaskColumn({
-    column, // รับเป็นก้อน
+    column,
     tasks,
     onEdit,
 }: TaskColumnProps) {
-    // 2. ใช้ column.id เป็น ID สำหรับ Drop Zone
+
     const { setNodeRef, isOver } = useDroppable({ id: column.id })
     const { trans } = useLanguage()
 
-    // ใช้ ID ของ Column เพื่อจัดการ Form (ลบ/แก้ไข)
+
     const {
         isEditing,
         setIsEditing,
@@ -38,8 +38,7 @@ function TaskColumn({
         handleConfirmDelete,
     } = useColumnForm(column.id)
 
-    // *หมายเหตุ: ถ้า Database ยังไม่มี field color ให้ใส่ค่า default ไปก่อน
-    // const displayColor = column.color || 'bg-gray-500'
+
 
     return (
         <ColumnContainer
@@ -52,7 +51,7 @@ function TaskColumn({
                         <ColumnForm
                             initialData={{
                                 title: column.title,
-                                //color: displayColor,
+
                             }}
                             onSave={handleSaveEdit}
                             onCancel={() => setIsEditing(false)}
@@ -60,9 +59,9 @@ function TaskColumn({
                     ) : (
                         <ColumnHeader
                             title={column.title}
-                            status={column.id} // ส่ง ID ไปแทน status เดิม
+                            status={column.id}
                             count={tasks.length}
-                            
+
                             onEditClick={() => setIsEditing(true)}
                             onDeleteClick={handleDeleteClick}
                         />
@@ -78,7 +77,7 @@ function TaskColumn({
                             isOver ? 'bg-app-primary/5' : 'bg-transparent'
                         )}
                     >
-                        {/* ส่ง Tasks เข้าไปแสดงผล */}
+
                         <TaskList tasks={tasks} onEdit={onEdit} />
 
                         {tasks.length === 0 && (

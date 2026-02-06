@@ -44,6 +44,10 @@ export type TranslationKey =
     | 'priority_medium'
     | 'priority_high'
     | 'option_all'
+    | 'login'
+    | 'register'
+    | 'logout'
+    | 'add_column'
 
 export const translations: Record<Language, Record<TranslationKey, string>> = {
     en: {
@@ -90,6 +94,10 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         priority_medium: 'Medium',
         priority_high: 'High',
         option_all: 'All Priorities',
+        login: 'Successfully logged in',
+        register: 'Created account successfully',
+        logout: 'Logout',
+        add_column: 'Add Column',
     },
     th: {
         app_title: 'บอร์ดของฉัน',
@@ -135,5 +143,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         priority_medium: 'ปานกลาง',
         priority_high: 'สูง',
         option_all: 'ทั้งหมด',
+        login: 'ล็อกอิน เข้าสู่ระบบสำเร็จ',
+        register: 'สมัครสมาชิกสำเร็จ',
+        logout: 'ออกจากระบบ',
+        add_column: 'เพิ่มคอลัมน์',
     },
 }

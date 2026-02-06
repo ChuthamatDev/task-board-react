@@ -1,10 +1,13 @@
 import { Disclosure } from '@headlessui/react'
+import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
 import ThemeToggleButton from './ui/ThemeToggleButton'
 import LanguageSwitcher from './ui/LanguageSwitcher'
 import { useLanguage } from '../contexts/LanguageContext'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Navbar() {
     const { trans } = useLanguage()
+    const { isAuthenticated, logout } = useAuth()
 
     return (
         <Disclosure
@@ -23,6 +26,21 @@ export default function Navbar() {
                         <div className="h-6 w-[1px] bg-app-border mx-2 hidden sm:block"></div>
 
                         <ThemeToggleButton />
+
+                        {isAuthenticated && (
+                            <>
+                                <div className="h-6 w-[1px] bg-app-border mx-2 hidden sm:block"></div>
+
+                                <button
+                                    onClick={logout}
+                                    className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                                    title="Logout"
+                                >
+                                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                                    <span className="hidden sm:inline">{trans('logout')}</span>
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
