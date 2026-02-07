@@ -1,12 +1,9 @@
 import { forwardRef, ButtonHTMLAttributes } from 'react'
 import clsx from 'clsx'
 
-// 1. กำหนด Variant และ Size ให้ชัดเจน (ห้ามมั่ว)
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
 type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
 
-// 2. สร้าง Interface โดย Extend จาก HTML Button เดิม
-// ทำให้รับ onClick, type, disabled ฯลฯ ได้โดยไม่ต้องประกาศซ้ำ
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant
     size?: ButtonSize

@@ -1,10 +1,10 @@
 import { forwardRef, InputHTMLAttributes } from 'react'
 import clsx from 'clsx'
 
-// กำหนด Type ของ Error (รองรับทั้ง string และ object แบบ React Hook Form)
+
 type FieldError = string | { message?: string } | undefined | null
 
-// Extends InputHTMLAttributes เพื่อให้รับ props มาตรฐานเช่น type, onChange, placeholder ได้เลย
+
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string
     error?: FieldError
