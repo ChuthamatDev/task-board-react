@@ -11,8 +11,8 @@ export function useColumnForm(columnId: string) {
     const [isEditing, setIsEditing] = useState(false)
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
-    const handleSaveEdit = (newTitle: string) => {
-        updateColumn(columnId, { title: newTitle })
+    const handleSaveEdit = (newTitle: string, color: string) => {
+        updateColumn(columnId, { title: newTitle, color })
         setIsEditing(false)
         setAlert(`${trans('alert_update_success')}`, 'success')
     }

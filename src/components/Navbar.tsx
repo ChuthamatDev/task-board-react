@@ -20,16 +20,18 @@ export default function Navbar() {
 
     const displayName = user?.username || user?.name || user?.email || 'Guest'
 
-    console.log('displayName', displayName)
-
     return (
         <Disclosure
             as="nav"
-            className="relative bg-app-surface transition-colors duration-300 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:border-app-border"
+            className="relative transition-colors duration-300 
+            bg-white dark:bg-[hsl(220,35%,3%)] 
+            border-b border-gray-200 dark:border-gray-800
+            shadow-[0px_4px_16px_0px_hsla(220,30%,5%,0.07),0px_8px_16px_-5px_hsla(220,25%,10%,0.07)]
+            dark:shadow-[0px_4px_16px_0px_hsla(220,30%,5%,0.7),0px_8px_16px_-5px_hsla(220,25%,10%,0.8)]"
         >
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
-                    <div className="flex space-x-4 text-gray-900 dark:text-gray-300 text-2xl font-bold transition-colors duration-300">
+                    <div className="flex space-x-4 text-gray-900 dark:text-gray-100 text-2xl font-bold transition-colors duration-300">
                         {trans('app_title')}
                     </div>
 
@@ -40,8 +42,8 @@ export default function Navbar() {
 
                         {isAuthenticated && (
                             <>
-                                <div className="flex items-center gap-3">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-500 text-white font-semibold text-xs shadow-sm ring-2 ring-white dark:ring-gray-700 overflow-hidden">
+                                <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-semibold text-xs shadow-sm ring-2 ring-white dark:ring-gray-700 overflow-hidden">
                                         {getInitials(displayName)}
                                     </div>
 
@@ -52,7 +54,7 @@ export default function Navbar() {
 
                                 <button
                                     onClick={logout}
-                                    className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                                    className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                                     title="Logout"
                                 >
                                     <ArrowRightOnRectangleIcon className="h-5 w-5" />

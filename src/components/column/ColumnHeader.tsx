@@ -1,5 +1,5 @@
 import { memo } from 'react'
-// import clsx from 'clsx'
+import clsx from 'clsx'
 import ColumnMenu from './ColumnMenu'
 
 interface ColumnHeaderProps {
@@ -8,6 +8,7 @@ interface ColumnHeaderProps {
     count: number
     onEditClick: () => void
     onDeleteClick: () => void
+    color: string
 }
 
 function ColumnHeader({
@@ -15,11 +16,12 @@ function ColumnHeader({
     count,
     onEditClick,
     onDeleteClick,
+    color,
 }: ColumnHeaderProps) {
     return (
         <div className="flex items-center justify-between px-2">
             <div className="flex items-center gap-2 overflow-hidden">
-                {/* <div className={clsx('w-3 h-3 rounded-full shrink-0', color)} /> */}
+                <div className={clsx('w-3 h-3 rounded-full shrink-0', color)} />
                 <h2 className="font-bold text-app-text truncate text-md tracking-wide">
                     {title}
                 </h2>

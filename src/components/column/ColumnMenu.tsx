@@ -1,5 +1,5 @@
-import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
 import {
     EllipsisHorizontalIcon,
     PencilSquareIcon,
@@ -9,8 +9,8 @@ import clsx from 'clsx'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface ColumnMenuProps {
-    onEdit?: () => void
-    onDelete?: () => void
+    onEdit: () => void
+    onDelete: () => void
 }
 
 export default function ColumnMenu({ onEdit, onDelete }: ColumnMenuProps) {
@@ -19,14 +19,10 @@ export default function ColumnMenu({ onEdit, onDelete }: ColumnMenuProps) {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-app-bg text-app-subtle hover:text-app-text transition-colors focus:outline-none focus:ring-2 focus:ring-app-primary/50">
-                    <EllipsisHorizontalIcon
-                        className="w-5 h-5"
-                        aria-hidden="true"
-                    />
+                <Menu.Button className="flex items-center justify-center w-8 h-8 rounded-full text-app-subtle hover:text-app-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <EllipsisHorizontalIcon className="w-5 h-5" />
                 </Menu.Button>
             </div>
-
             <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
@@ -36,60 +32,71 @@ export default function ColumnMenu({ onEdit, onDelete }: ColumnMenuProps) {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute right-0 z-50 mt-1 w-48 origin-top-right divide-y divide-gray-700 rounded bg-app-surface ring-1 ring-gary-700 ring-opacity-5 focus:outline-none border border-app-border">
-                    <div className="p-1">
-                        <Menu.Item>
-                            {({ active }) => (
-                                <button
-                                    onClick={onEdit}
+                <Menu.Items
+                    className={clsx(
+                        'absolute right-0 mt-2 w-40 origin-top-right z-50 focus:outline-none',
+                        'p-2',
+                        'flex flex-col gap-0.5',
+                        'rounded-lg',
+                        'bg-white dark:bg-[hsl(220,30%,7%)]',
+                        'border border-gray-200 dark:border-gray-800',
+                        'shadow-[0px_4px_16px_0px_hsla(220,30%,5%,0.07),0px_8px_16px_-5px_hsla(220,25%,10%,0.07)]',
+                        'dark:shadow-[0px_4px_16px_0px_hsla(220,30%,5%,0.7),0px_8px_16px_-5px_hsla(220,25%,10%,0.8)]'
+                    )}
+                >
+                    <Menu.Item>
+                        {({ active }) => (
+                            <button
+                                onClick={onEdit}
+                                className={clsx(
+                                    'group flex w-full items-center gap-2 px-2 py-1.5',
+                                    'rounded-md',
+                                    'text-sm font-medium',
+                                    'transition-colors',
+                                    active
+                                        ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100' // Hover/Selected
+                                        : 'text-gray-700 dark:text-gray-300'
+                                )}
+                            >
+                                <PencilSquareIcon
                                     className={clsx(
-                                        'group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors',
+                                        'w-4 h-4',
                                         active
-                                            ? 'bg-app-primary text-white'
-                                            : 'text-app-text'
+                                            ? 'text-gray-900 dark:text-gray-100'
+                                            : 'text-gray-500 dark:text-gray-400'
                                     )}
-                                >
-                                    <PencilSquareIcon
-                                        className={clsx(
-                                            'mr-2 h-4 w-4',
-                                            active
-                                                ? 'text-white'
-                                                : 'text-app-primary'
-                                        )}
-                                        aria-hidden="true"
-                                    />
-                                    {trans('column_edit')}
-                                </button>
-                            )}
-                        </Menu.Item>
-                    </div>
+                                />
+                                {trans('column_edit')}
+                            </button>
+                        )}
+                    </Menu.Item>
 
-                    <div className="p-1">
-                        <Menu.Item>
-                            {({ active }) => (
-                                <button
-                                    onClick={onDelete}
+                    <Menu.Item>
+                        {({ active }) => (
+                            <button
+                                onClick={onDelete}
+                                className={clsx(
+                                    'group flex w-full items-center gap-2 px-2 py-1.5',
+                                    'rounded-md',
+                                    'text-sm font-medium',
+                                    'transition-colors',
+                                    active
+                                        ? 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300' // Custom Danger Hover
+                                        : 'text-red-600 dark:text-red-400'
+                                )}
+                            >
+                                <TrashIcon
                                     className={clsx(
-                                        'group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors',
+                                        'w-4 h-4',
                                         active
-                                            ? 'bg-red-500 text-white'
-                                            : 'text-red-500'
+                                            ? 'text-red-600 dark:text-red-300'
+                                            : 'text-red-500 dark:text-red-400'
                                     )}
-                                >
-                                    <TrashIcon
-                                        className={clsx(
-                                            'mr-2 h-4 w-4',
-                                            active
-                                                ? 'text-white'
-                                                : 'text-red-500'
-                                        )}
-                                        aria-hidden="true"
-                                    />
-                                    {trans('column_delete')}
-                                </button>
-                            )}
-                        </Menu.Item>
-                    </div>
+                                />
+                                {trans('column_delete')}
+                            </button>
+                        )}
+                    </Menu.Item>
                 </Menu.Items>
             </Transition>
         </Menu>

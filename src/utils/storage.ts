@@ -16,4 +16,5 @@ export interface Column {
     id: string
     title: string
     position: number
+    color?: string
 }

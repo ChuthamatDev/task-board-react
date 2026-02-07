@@ -6,7 +6,7 @@ import { COLUMN_COLORS } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface ColumnFormProps {
-    onSave: (title: string) => void
+    onSave: (title: string, color: string) => void
     onCancel: () => void
     initialData?: {
         title?: string
@@ -36,7 +36,7 @@ export default function ColumnForm({
             return
         }
 
-        onSave(title)
+        onSave(title, selectedColor)
     }
 
     return (
@@ -65,10 +65,9 @@ export default function ColumnForm({
                                 w-8 h-8 rounded-full ${colorClass} 
                                 flex items-center justify-center
                                 transition-all hover:scale-110
-                                ${
-                                    selectedColor === colorClass
-                                        ? 'ring-2 ring-offset-2 ring-app-text scale-110 shadow-sm'
-                                        : 'opacity-70 hover:opacity-100'
+                                ${selectedColor === colorClass
+                                    ? 'ring-2 ring-offset-2 ring-app-text scale-110 shadow-sm'
+                                    : 'opacity-70 hover:opacity-100'
                                 }
                             `}
                             title={name}

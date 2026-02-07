@@ -47,11 +47,29 @@ function TaskCard({
             {...attributes}
             {...listeners}
             className={clsx(
-                'relative rounded p-4',
-                'bg-app-card shadow border border-app-border',
-                'cursor-grab active:cursor-grabbing',
-                'touch-none',
-                isOverlay && 'pointer-events-none opacity-90',
+                // Base Shape & Layout
+                'relative rounded-lg p-4 gap-4',
+                'touch-none cursor-grab active:cursor-grabbing',
+
+                // --- MUI Card Style (Outlined Variant) ---
+                // Transition
+                'transition-all duration-100 ease-out',
+
+                // Background
+                'bg-white', // Light: hsl(0, 0%, 100%)
+                'dark:bg-[hsla(220,35%,3%,0.4)]', // Dark: alpha(gray[900], 0.4)
+
+                // Border (Divider Color)
+                'border',
+                'border-[hsla(220,20%,80%,0.4)]', // Light: alpha(gray[300], 0.4)
+                'dark:border-[hsla(220,20%,25%,0.6)]', // Dark: alpha(gray[700], 0.6)
+
+                // Shadow
+                'shadow-none', // MuiCard outlined has no shadow
+
+                // Dragging States
+                isOverlay &&
+                    'pointer-events-none opacity-90 rotate-2 scale-105 shadow-xl z-50',
                 isDragging && 'opacity-30'
             )}
         >

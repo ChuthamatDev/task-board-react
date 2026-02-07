@@ -9,8 +9,8 @@ export default function AddColumnButton() {
     const { addColumn } = useColumns()
     const { trans } = useLanguage()
 
-    const handleSave = async (title: string) => {
-        await addColumn(title)
+    const handleSave = async (title: string, color: string) => {
+        await addColumn(title, color)
         setIsAdding(false)
     }
 

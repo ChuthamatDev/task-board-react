@@ -4,49 +4,110 @@
 
 @layer base {
     :root {
-        /* Base Colors */
-        --color-bg: #f9f7f7;
-        --color-surface: #ffffff;
-        --color-card: #fcfcfc;
-        --color-column: #9db2bf;
-        --color-border: #e2e8f0;
+        /* --- Color Palette (MUI Design Tokens) --- */
+        /* Brand (Blue) */
+        --brand-50: 210 100% 95%;
+        --brand-100: 210 100% 92%;
+        --brand-200: 210 100% 80%;
+        --brand-300: 210 100% 65%;
+        --brand-400: 210 98% 48%;
+        --brand-500: 210 98% 42%;
+        --brand-600: 210 98% 55%;
+        --brand-700: 210 100% 35%;
+        --brand-800: 210 100% 16%;
+        --brand-900: 210 100% 21%;
 
-        /* Text Colors */
-        --color-text: #0f172a;
-        --color-subtle-text: #64748b;
+        /* Gray */
+        --gray-50: 220 35% 97%;
+        --gray-100: 220 30% 94%;
+        --gray-200: 220 20% 88%;
+        --gray-300: 220 20% 80%;
+        --gray-400: 220 20% 65%;
+        --gray-500: 220 20% 42%;
+        --gray-600: 220 20% 35%;
+        --gray-700: 220 20% 25%;
+        --gray-800: 220 30% 6%;
+        --gray-900: 220 35% 3%;
 
-        /* Brand/Accent (Primary Action) */
-        --color-accent: #60a5fa;
-        --color-accent-hover: #3b82f6;
-        --color-accent-text: #ffffff;
+        /* Green (Success) */
+        --green-400: 120 44% 53%;
+        --green-500: 120 59% 30%;
 
-        /* Semantic Colors (Button Actions) */
-        --color-danger: #ef4444;
-        --color-danger-hover: #dc2626;
+        /* Orange (Warning) */
+        --orange-400: 45 90% 40%;
+        --orange-500: 45 90% 35%;
 
-        --color-success: #10b981;
-        --color-warning: #f59e0b;
+        /* Red (Error/Danger) */
+        --red-400: 0 90% 40%;
+        --red-500: 0 90% 30%;
+
+        /* --- Semantic Variables (Light Mode) --- */
+        /* Backgrounds */
+        --color-bg: hsl(0, 0%, 99%); /* background.default */
+        --color-surface: hsl(220, 35%, 97%); /* background.paper */
+        --color-card: hsl(0, 0%, 100%); /* Card color (custom) */
+        --color-border: hsla(
+            220,
+            20%,
+            80%,
+            0.4
+        ); /* divider (gray-300 alpha 0.4) */
+
+        /* Text */
+        --color-text: hsl(var(--gray-800)); /* text.primary */
+        --color-subtle-text: hsl(var(--gray-600)); /* text.secondary */
+
+        /* Primary Action (Brand) */
+        --color-accent: hsl(var(--brand-400)); /* primary.main */
+        --color-accent-hover: hsl(
+            var(--brand-500)
+        ); /* primary.dark (for hover) */
+        --color-accent-text: hsl(var(--brand-50)); /* primary.contrastText */
+
+        /* Danger Action */
+        --color-danger: hsl(var(--red-400));
+        --color-danger-hover: hsl(var(--red-500));
+
+        /* Shadows */
+        --shadow-base:
+            hsla(220, 30%, 5%, 0.07) 0px 4px 16px 0px,
+            hsla(220, 25%, 10%, 0.07) 0px 8px 16px -5px;
     }
 
     :root.dark {
-        /* Base Colors */
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-card: #334155;
-        --color-border: #334155;
+        /* --- Semantic Variables (Dark Mode) --- */
+        /* Backgrounds */
+        --color-bg: hsl(var(--gray-900)); /* background.default */
+        --color-surface: hsl(220, 30%, 7%); /* background.paper */
+        --color-card: hsl(220, 30%, 10%); /* Card color slightly lighter */
+        --color-border: hsla(
+            220,
+            20%,
+            25%,
+            0.6
+        ); /* divider (gray-700 alpha 0.6) */
 
-        /* Text Colors */
-        --color-text: #f8fafc;
-        --color-subtle-text: #94a3b8;
+        /* Text */
+        --color-text: hsl(0, 0%, 100%); /* text.primary */
+        --color-subtle-text: hsl(var(--gray-400)); /* text.secondary */
 
-        /* Brand/Accent */
-        --color-accent: #60a5fa;
-        --color-accent-hover: #3b82f6;
-        --color-accent-text: #ffffff;
+        /* Primary Action (Brand) */
+        --color-accent: hsl(var(--brand-400)); /* primary.main */
+        --color-accent-hover: hsl(
+            var(--brand-300)
+        ); /* primary.light (lighter for hover in dark mode) */
+        --color-accent-text: hsl(var(--brand-50));
 
-        /* Semantic Colors */
-        --color-danger: #f87171;
-        --color-danger-hover: #ef4444;
+        /* Danger Action */
+        --color-danger: hsl(
+            var(--red-400)
+        ); /* error.light in MUI logic usually, but main works too */
+        --color-danger-hover: hsl(var(--red-500));
+
+        /* Shadows */
+        --shadow-base:
+            hsla(220, 30%, 5%, 0.7) 0px 4px 16px 0px,
+            hsla(220, 25%, 10%, 0.8) 0px 8px 16px -5px;
     }
 
     body {
@@ -71,10 +132,20 @@
 
     --color-app-danger: var(--color-danger);
     --color-app-danger-hover: var(--color-danger-hover);
+
+    --shadow-app-base: var(--shadow-base);
+
+    /* Font Sizes from MUI Typography */
+    --text-h1: 3rem; /* 48px */
+    --text-h2: 2.25rem; /* 36px */
+    --text-h3: 1.875rem; /* 30px */
+    --text-h4: 1.5rem; /* 24px */
+    --text-h5: 1.25rem; /* 20px */
+    --text-h6: 1.125rem; /* 18px */
 }
 
 @layer utilities {
-    /* Webkit browsers (Chrome, Safari, Edge) */
+    /* Keep your existing scrollbar utilities */
     .scrollbar-thin::-webkit-scrollbar {
         width: 8px;
         height: 8px;
