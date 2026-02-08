@@ -133,7 +133,6 @@ export default function SignUp() {
                                 )}
                             </div>
 
-                            {/* Terms Checkbox (Optional decoration) */}
                             <div className="flex items-start">
                                 <div className="flex items-center h-5">
                                     <input

@@ -15,8 +15,9 @@ const ColumnContainer = forwardRef<HTMLDivElement, ColumnContainerProps>(
                     'flex flex-col w-80 shrink-0',
                     'bg-gray-100/50 dark:bg-gray-800/50',
                     'border border-gray-200 dark:border-gray-700',
-                    'rounded-xl backdrop-blur-sm',
+                    'rounded-md backdrop-blur-sm',
                     'transition-colors duration-300',
+                    'mt-4',
                     className
                 )}
             >

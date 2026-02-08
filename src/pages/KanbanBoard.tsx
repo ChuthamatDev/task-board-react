@@ -16,6 +16,7 @@ import { useBoardDrag } from '../hooks/useBoardDrag'
 import { useTaskModal } from '../hooks/task/useTaskModal'
 import { useKanban } from '../hooks/useKanban'
 import { useColumns } from '../contexts/ColumnContext'
+import { useTasks } from '../contexts/TaskContext'
 import LoadingScreen from '../components/ui/LoadingScreen'
 import BoardHeader from '../components/board/BoardHeader'
 import BoardColumns from '../components/board/BoardColumns'
@@ -39,17 +40,18 @@ export default function KanbanBoard() {
         filteredTasks,
         isLoading,
         taskItems,
-        moveTask,
-        reorderTask,
     } = useKanban()
 
     const { columns } = useColumns()
 
-    const { activeTask, onDragStart, onDragEnd, onDragCancel } = useBoardDrag(
+    const { updateTask } = useTasks()
+
+    const { activeTask, onDragStart, onDragOver, onDragEnd, onDragCancel } = useBoardDrag(
         taskItems,
         columns,
-        moveTask,
-        reorderTask
+        (id, newColumnId, newPosition) => {
+            updateTask(id, { columnId: newColumnId, position: newPosition })
+        }
     )
 
     const sensors = useSensors(
@@ -71,6 +73,7 @@ export default function KanbanBoard() {
             sensors={sensors}
             collisionDetection={closestCorners}
             onDragStart={onDragStart}
+            onDragOver={onDragOver}
             onDragEnd={onDragEnd}
             onDragCancel={onDragCancel}
             measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}

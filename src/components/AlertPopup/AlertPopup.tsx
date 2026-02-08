@@ -19,14 +19,17 @@ const AlertPopup = () => {
             data-state={visible ? 'open' : 'closed'}
             className={clsx(
                 'fixed z-[9999] flex items-center gap-4 p-4',
-                'top-4 right-4 left-4 sm:left-auto sm:top-6 sm:right-6',
+                'bottom-4 right-4 left-4 sm:left-auto sm:bottom-6 sm:right-6',
+
                 'min-w-[auto] sm:min-w-[340px] max-w-md',
                 'bg-app-surface shadow-xl rounded-xl',
                 'border border-app-border border-l-4',
                 'transition-all duration-300 ease-out transform',
+
                 visible
                     ? 'translate-y-0 opacity-100 scale-100'
-                    : '-translate-y-4 opacity-0 scale-95 pointer-events-none',
+                    : 'translate-y-4 opacity-0 scale-95 pointer-events-none',
+
                 color.replace('text-', 'border-')
             )}
         >

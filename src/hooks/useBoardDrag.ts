@@ -1,12 +1,28 @@
 import { useState } from 'react'
-import { DragStartEvent, DragEndEvent } from '@dnd-kit/core'
+import { DragStartEvent, DragOverEvent, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core'
+
 import { Task, Column } from '../utils/storage'
+
+
+const calculateNewPosition = (tasks: Task[], newIndex: number): number => {
+
+    if (tasks.length === 0) return 1000
+    if (newIndex === 0) return tasks[0].position / 2
+
+ 
+    if (newIndex >= tasks.length) {
+        return tasks[tasks.length - 1].position + 1000
+    }
+
+    const prevTask = tasks[newIndex - 1]
+    const nextTask = tasks[newIndex]
+    return (prevTask.position + nextTask.position) / 2
+}
 
 export function useBoardDrag(
     taskItems: Task[],
     columns: Column[],
-    moveTask: (id: string, newColumnId: string, newIndex: number) => void,
-    reorderTask: (id: string, newIndex: number) => void
+    updateTaskPosition: (id: string, newColumnId: string, newPosition: number) => void
 ) {
     const [activeTask, setActiveTask] = useState<Task | null>(null)
 
@@ -16,8 +32,23 @@ export function useBoardDrag(
         setActiveTask(task || null)
     }
 
-    const onDragOver = () => {
-        // เว้นว่างไว้ หรือใส่ Logic Optimistic UI ขั้นสูงในอนาคต
+    // ✅ เพิ่ม onDragOver: เพื่อให้การย้ายข้าม Column ดูลื่นไหล (Optimistic UI)
+    const onDragOver = (event: DragOverEvent) => {
+        const { active, over } = event
+        if (!over) return
+
+        const activeId = active.id
+        const overId = over.id
+
+        if (activeId === overId) return
+
+        const isActiveTask = active.data.current?.type === 'Task'
+        const isOverTask = over.data.current?.type === 'Task'
+
+        if (!isActiveTask || !isOverTask) return
+
+        // Optimistic UI updates removed - relying on backend updates instead
+        // The drag preview will still work via DragOverlay
     }
 
     const onDragEnd = (event: DragEndEvent) => {
@@ -29,50 +60,57 @@ export function useBoardDrag(
         const activeId = String(active.id)
         const overId = String(over.id)
 
-        if (activeId === overId) return
+        // หาข้อมูล Task ปัจจุบัน
+        const currentTask = taskItems.find(t => t.id === activeId)
+        if (!currentTask) return
 
-        const activeTask = taskItems.find((t) => t.id === activeId)
-        if (!activeTask) return
+        // --- คำนวณหาตำแหน่งปลายทาง ---
+        let targetColumnId = currentTask.columnId
+        let newIndex = 0
 
-        // --- กรณีที่ 1: ลากไปวางทับ "Column" (เช่น พื้นที่ว่างใน Column) ---
-        // เช็คจาก column.id แทน column.status
         const isOverColumn = columns.some((col) => col.id === overId)
 
         if (isOverColumn) {
-            // ถ้าย้ายไป Column ใหม่ ให้ไปต่อท้ายสุด หรือขึ้นบนสุด (ที่นี่เลือก Index 0 คือบนสุด)
-            if (activeTask.columnId !== overId) {
-                moveTask(activeId, overId, 0)
+            // กรณีวางใส่ Column ว่างๆ -> ย้ายไป Column นั้น ตำแหน่งแรก
+            targetColumnId = overId
+            newIndex = 0
+        } else {
+            // กรณีวางใส่ Task อื่น
+            const overTask = taskItems.find((t) => t.id === overId)
+            if (overTask) {
+                targetColumnId = overTask.columnId
+                // กรอง Task ใน Column เป้าหมายมาเรียงก่อน
+                const tasksInColumn = taskItems
+                    .filter(t => t.columnId === targetColumnId && t.id !== activeId)
+                    .sort((a, b) => a.position - b.position)
+
+                // หา Index ที่ควรจะอยู่
+                const overTaskIndex = tasksInColumn.findIndex(t => t.id === overId)
+
+                // Logic ง่ายๆ: ถ้าวางทับ ให้ต่อท้ายตัวที่ทับ (หรือคุณจะเช็ค active.rect กับ over.rect เพื่อดูว่าวางบน/ล่างก็ได้)
+                newIndex = overTaskIndex >= 0 ? overTaskIndex : tasksInColumn.length
             }
-            return
         }
 
-        // --- กรณีที่ 2: ลากไปวางทับ "Task อื่น" ---
-        const overTask = taskItems.find((t) => t.id === overId)
+        // --- 🚀 หัวใจสำคัญ: คำนวณ Position แบบ Float ---
+        // เอา Task ใน Column เป้าหมายมาเรียงใหม่ (ไม่รวมตัวที่กำลังลาก)
+        const targetTasks = taskItems
+            .filter(t => t.columnId === targetColumnId && t.id !== activeId)
+            .sort((a, b) => a.position - b.position)
 
-        if (overTask) {
-            // เราต้องหาว่า Task ที่เราไปทับเนี่ย มันอยู่อันดับที่เท่าไหร่ใน Column นั้น
-            // เพื่อที่เราจะได้แทรกตัวเข้าไปได้ถูกช่อง
-            const tasksInTargetColumn = taskItems
-                .filter((t) => t.columnId === overTask.columnId)
-                .sort((a, b) => a.position - b.position) // เรียงตาม Position จริงก่อน
+        // คำนวณค่า Position ใหม่
+        const newPosition = calculateNewPosition(targetTasks, newIndex)
 
-            const newIndex = tasksInTargetColumn.findIndex(
-                (t) => t.id === overId
-            )
-
-            // 2.1 ถ้าอยู่ Column เดียวกัน (Reorder)
-            if (activeTask.columnId === overTask.columnId) {
-                reorderTask(activeId, newIndex)
-            }
-            // 2.2 ถ้าข้ามไปคนละ Column (Move)
-            else {
-                moveTask(activeId, overTask.columnId, newIndex)
-            }
+        // ยิง API อัปเดต (ส่งค่า Position ไปเลย Backend ไม่ต้องคิด)
+        // เช็คว่ามีการเปลี่ยนแปลงจริงไหมค่อยยิง
+        if (currentTask.position !== newPosition || currentTask.columnId !== targetColumnId) {
+            updateTaskPosition(activeId, targetColumnId, newPosition)
         }
     }
 
     const onDragCancel = () => {
         setActiveTask(null)
+        // ควรมี logic reset state กลับถ้ายกเลิก (optional)
     }
 
     return {

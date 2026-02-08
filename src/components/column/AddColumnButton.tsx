@@ -16,7 +16,7 @@ export default function AddColumnButton() {
 
     if (isAdding) {
         return (
-            <div className="flex-shrink-0 w-80 bg-app-surface rounded-lg p-4 shadow-sm border border-app-border transition-colors duration-300">
+            <div className="flex-shrink-0 w-80 bg-app-surface rounded-lg p-4 shadow-sm border border-app-border transition-colors duration-300 mt-4">
                 <ColumnForm
                     onSave={handleSave}
                     onCancel={() => setIsAdding(false)}
@@ -28,7 +28,7 @@ export default function AddColumnButton() {
     return (
         <button
             onClick={() => setIsAdding(true)}
-            className="flex-shrink-0 w-80 h-fit bg-app-surface/50 hover:bg-app-surface rounded-lg p-4 border-2 border-dashed border-app-border hover:border-app-primary/50 transition-all duration-300 group"
+            className="flex-shrink-0 w-80 h-fit bg-app-surface/50 hover:bg-app-surface rounded-lg p-2 border-2 border-dashed border-app-border hover:border-app-primary/50 transition-all duration-300 group mt-4"
         >
             <div className="flex items-center justify-center gap-2 text-app-text-secondary group-hover:text-app-primary transition-colors">
                 <PlusIcon className="w-5 h-5" />

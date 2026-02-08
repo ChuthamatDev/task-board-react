@@ -19,6 +19,9 @@ function TaskCard({
     onDelete,
     isOverlay = false,
 }: TaskCardProps) {
+
+    const isEditMode = false
+
     const {
         setNodeRef,
         attributes,
@@ -52,24 +55,26 @@ function TaskCard({
                 'touch-none cursor-grab active:cursor-grabbing',
 
                 // --- MUI Card Style (Outlined Variant) ---
-                // Transition
-                'transition-all duration-100 ease-out',
+                // Transition (ให้ Animation ลื่นไหล แต่ไม่กระทบตอนลาก)
+                'transition-all duration-200 ease-out',
 
                 // Background
-                'bg-white', // Light: hsl(0, 0%, 100%)
-                'dark:bg-[hsla(220,35%,3%,0.4)]', // Dark: alpha(gray[900], 0.4)
+                'bg-white',
+                'dark:bg-[hsla(220,35%,3%,0.4)]',
 
-                // Border (Divider Color)
+                // Border
                 'border',
-                'border-[hsla(220,20%,80%,0.4)]', // Light: alpha(gray[300], 0.4)
-                'dark:border-[hsla(220,20%,25%,0.6)]', // Dark: alpha(gray[700], 0.6)
+                'border-[hsla(220,20%,80%,0.4)]',
+                'dark:border-[hsla(220,20%,25%,0.6)]',
 
-                // Shadow
-                'shadow-none', // MuiCard outlined has no shadow
+                // Shadow (ปกติไม่มีเงา)
+                'shadow-none',
 
-                // Dragging States
-                isOverlay &&
-                    'pointer-events-none opacity-90 rotate-2 scale-105 shadow-xl z-50',
+                // --- Dragging States (แก้ไขตรงนี้) ---
+                // ลบ rotate-2 และ scale-105 ออก ให้เหลือแค่เงาและ Opacity
+                isOverlay && 'pointer-events-none opacity-90 shadow-xl z-50 cursor-grabbing',
+
+                // ตอนตัวจริงโดนลาก ให้จางลง
                 isDragging && 'opacity-30'
             )}
         >
@@ -79,15 +84,15 @@ function TaskCard({
                 {task.title}
             </h3>
 
-            <p className="text-xs text-app-subtle mb-3 line-clamp-2">
-                {task.description}
-            </p>
+            {task.description && (
+                <p className="text-xs text-app-subtle mb-3 line-clamp-2">
+                    {task.description}
+                </p>
+            )}
 
             <TaskCardMeta task={task} />
         </div>
     )
 }
-
-const isEditMode = false
 
 export default memo(TaskCard)
