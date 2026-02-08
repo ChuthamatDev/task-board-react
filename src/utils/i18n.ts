@@ -51,7 +51,7 @@ export type TranslationKey =
 
 export const translations: Record<Language, Record<TranslationKey, string>> = {
     en: {
-        app_title: 'My Board',
+        app_title: 'TaskBoard',
         app_sub: 'Manage your team tasks',
         // Actions
         btn_new_task: 'New Task',
@@ -100,7 +100,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         add_column: 'Add Column',
     },
     th: {
-        app_title: 'บอร์ดของฉัน',
+        app_title: 'บอร์ดงาน',
         app_sub: 'บริหารจัดการงานของทีมของคุณ',
         // Actions
         btn_new_task: 'เพิ่มงานใหม่',

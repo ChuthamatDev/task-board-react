@@ -11,13 +11,12 @@ const ThemeToggleButton = () => {
             size="icon"
             onClick={toggleTheme}
             aria-label="Toggle Dark Mode"
-            className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-900 transition-transform hover:scale-110 cursor-pointer"
+            className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-110 cursor-pointer w-10 h-10 flex items-center justify-center"
             title="Change Theme"
         >
             <div
-                className={`relative flex items-center justify-center transition-all duration-500 ${
-                    isDark ? 'rotate-[360deg]' : 'rotate-0'
-                }`}
+                className={`relative flex items-center justify-center transition-all duration-500 ${isDark ? 'rotate-[360deg]' : 'rotate-0'
+                    }`}
             >
                 {isDark ? (
                     <SunIcon className="w-5 h-5 text-amber-500" />

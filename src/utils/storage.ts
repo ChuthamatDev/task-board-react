@@ -18,3 +18,6 @@ export interface Column {
     position: number
     color?: string
 }
+
+
+export const DEFAULT_COLUMN_COLOR = 'bg-gray-500'

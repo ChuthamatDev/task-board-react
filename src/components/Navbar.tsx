@@ -4,6 +4,8 @@ import ThemeToggleButton from './ui/ThemeToggleButton'
 import LanguageSwitcher from './ui/LanguageSwitcher'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
+import Button from './ui/Button'
+import Logo from '../assets/Logo'
 
 export default function Navbar() {
     const { trans } = useLanguage()
@@ -31,9 +33,8 @@ export default function Navbar() {
         >
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
-                    <div className="flex space-x-4 text-gray-900 dark:text-gray-100 text-2xl font-bold transition-colors duration-300">
-                        {trans('app_title')}
-                    </div>
+
+                    <Logo />
 
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-4">
                         <LanguageSwitcher />
@@ -52,16 +53,18 @@ export default function Navbar() {
                                     </span>
                                 </div>
 
-                                <button
+                                <Button
+                                    variant="danger"
+                                    size="md"
                                     onClick={logout}
-                                    className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                                     title="Logout"
+                                    className="gap-2"
                                 >
-                                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                                    <ArrowRightOnRectangleIcon className="h-4 w-4" />
                                     <span className="hidden sm:inline">
                                         {trans('logout')}
                                     </span>
-                                </button>
+                                </Button>
                             </>
                         )}
                     </div>

@@ -25,7 +25,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref
     ) => {
         const baseStyles =
-            'inline-flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none'
+            'inline-flex items-center justify-center rounded-lg font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-95'
 
         const variants: Record<ButtonVariant, string> = {
             primary:
@@ -35,7 +35,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             outline:
                 'border-2 border-app-primary text-app-primary hover:bg-app-primary/10',
             ghost: 'text-app-text hover:bg-gray-100 dark:hover:bg-gray-800',
-            danger: 'bg-red-50 text-white hover:bg-red-100 border border-red-200 dark:bg-red-900/20 dark:text-white dark:border-red-900',
+            danger: 'bg-red-50 text-red-600 hover:bg-red-100 border-2 border-red-600 dark:bg-red-900/20 dark:text-red-200 dark:border-red-900',
         }
 
         const sizes: Record<ButtonSize, string> = {

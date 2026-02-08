@@ -7,7 +7,7 @@ import ColumnContainer from './ColumnContainer'
 import ColumnForm from './ColumnForm'
 import ConfirmDialog from '../dialog/ConfirmDialog'
 import { useColumnForm } from '../../hooks/column/useColumnForm'
-import { Task, Column } from '../../utils/storage'
+import { Task, Column, DEFAULT_COLUMN_COLOR } from '../../utils/storage'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface TaskColumnProps {
@@ -60,7 +60,7 @@ function TaskColumn({ column, tasks, onEdit }: TaskColumnProps) {
                             count={tasks.length}
                             onEditClick={() => setIsEditing(true)}
                             onDeleteClick={handleDeleteClick}
-                            color={column.color || 'bg-gray-500'}
+                            color={column.color || DEFAULT_COLUMN_COLOR}
                         />
                     )}
                 </div>

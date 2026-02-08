@@ -6,6 +6,7 @@ import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 import { useAlert } from '../contexts/AlertContext'
 import { useLanguage } from '../contexts/LanguageContext'
+import Logo from '../assets/Logo'
 
 export default function SignUp() {
     const [usernameError, setUsernameError] = useState(false)
@@ -67,13 +68,9 @@ export default function SignUp() {
     return (
         <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4">
             <div className="flex flex-col items-center justify-center w-full">
-                <Link
-                    to="/"
-                    className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-                >
-                    <img className="w-8 h-8 mr-2" src="/vite.svg" alt="logo" />
-                    Task Board
-                </Link>
+                <div className="mb-6">
+                    <Logo />
+                </div>
 
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

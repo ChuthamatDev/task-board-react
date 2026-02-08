@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react'
 import Button from '../ui/Button'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import Input from '../ui/Input'
-import { COLUMN_COLORS } from '../../utils/formatters'
+import { COLUMN_COLORS, DEFAULT_COLUMN_COLOR } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface ColumnFormProps {
@@ -23,7 +23,7 @@ export default function ColumnForm({
     const { trans } = useLanguage()
 
     const [selectedColor, setSelectColor] = useState(() => {
-        return initialData?.color || 'bg-gray-500'
+        return initialData?.color || DEFAULT_COLUMN_COLOR
     })
 
     const [error, setError] = useState('')

@@ -7,7 +7,7 @@ import {
     useState,
     useMemo,
 } from 'react'
-import { Column } from '../utils/storage'
+import { Column, DEFAULT_COLUMN_COLOR } from '../utils/storage'
 import api from '../services/api'
 import { useAuth } from './AuthContext'
 
@@ -45,7 +45,10 @@ export default function ColumnProvider({ children }: { children: ReactNode }) {
         async (title: string, color?: string) => {
             if (!title.trim()) return
             try {
-                await api.post('/columns', { title: title.trim(), color })
+                await api.post('/columns', {
+                    title: title.trim(),
+                    color: color || DEFAULT_COLUMN_COLOR
+                })
                 fetchColumns()
             } catch (error) {
                 console.error('Error adding column', error)
