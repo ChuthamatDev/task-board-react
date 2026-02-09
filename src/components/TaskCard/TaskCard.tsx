@@ -50,7 +50,7 @@ function TaskCard({
             {...attributes}
             {...listeners}
             className={clsx(
-                'relative rounded-lg p-4 gap-4',
+                'relative rounded p-4 gap-4',
                 'touch-none cursor-grab active:cursor-grabbing',
                 'transition-all duration-200 ease-out',
                 'bg-white',
@@ -60,7 +60,8 @@ function TaskCard({
                 'dark:border-[hsla(220,20%,25%,0.6)]',
                 'shadow-none',
                 isOverlay && 'pointer-events-none opacity-90 shadow-xl z-50 cursor-grabbing',
-                isDragging && 'opacity-30'
+                isDragging && 'opacity-30',
+                isEditMode && 'rounded-xl'
             )}
         >
             <TaskCardActions task={task} onEdit={onEdit} onDelete={onDelete} />

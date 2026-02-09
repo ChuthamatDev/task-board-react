@@ -7,7 +7,8 @@ import ColumnContainer from './ColumnContainer'
 import ColumnForm from './ColumnForm'
 import ConfirmDialog from '../dialog/ConfirmDialog'
 import { useColumnForm } from '../../hooks/column/useColumnForm'
-import { Task, Column, DEFAULT_COLUMN_COLOR } from '../../utils/storage'
+import { Task, Column } from '../../utils/storage'
+import { migrateColor } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface TaskColumnProps {
@@ -43,7 +44,7 @@ function TaskColumn({ column, tasks, onEdit }: TaskColumnProps) {
             )}
         >
             <div className="flex flex-col h-full max-h-full">
-                <div className="flex-none p-3 border-b border-[hsla(220,20%,80%,0.4)] dark:border-[hsla(220,20%,25%,0.6)] bg-inherit z-10">
+                <div className="flex-none p-1.5 border-b border-[hsla(220,20%,80%,0.4)] dark:border-[hsla(220,20%,25%,0.6)] bg-inherit z-10">
                     {isEditing ? (
                         <ColumnForm
                             initialData={{
@@ -60,7 +61,7 @@ function TaskColumn({ column, tasks, onEdit }: TaskColumnProps) {
                             count={tasks.length}
                             onEditClick={() => setIsEditing(true)}
                             onDeleteClick={handleDeleteClick}
-                            color={column.color || DEFAULT_COLUMN_COLOR}
+                            color={migrateColor(column.color)}
                         />
                     )}
                 </div>
@@ -76,7 +77,7 @@ function TaskColumn({ column, tasks, onEdit }: TaskColumnProps) {
                                 : 'bg-transparent'
                         )}
                     >
-                        <TaskList tasks={tasks} onEdit={onEdit} />
+                        <TaskList tasks={tasks} onEdit={onEdit} disabled={isEditing} />
 
                         {tasks.length === 0 && (
                             <div

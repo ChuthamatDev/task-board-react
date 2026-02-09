@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react'
 import Button from '../ui/Button'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import Input from '../ui/Input'
-import { COLUMN_COLORS, DEFAULT_COLUMN_COLOR } from '../../utils/formatters'
+import { COLUMN_COLORS, DEFAULT_COLUMN_COLOR, migrateColor } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface ColumnFormProps {
@@ -23,7 +23,7 @@ export default function ColumnForm({
     const { trans } = useLanguage()
 
     const [selectedColor, setSelectColor] = useState(() => {
-        return initialData?.color || DEFAULT_COLUMN_COLOR
+        return migrateColor(initialData?.color)
     })
 
     const [error, setError] = useState('')
@@ -40,7 +40,7 @@ export default function ColumnForm({
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 pointer-events-auto">
             <div>
                 <Input
                     value={title}

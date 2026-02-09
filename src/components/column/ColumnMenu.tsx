@@ -19,7 +19,7 @@ export default function ColumnMenu({ onEdit, onDelete }: ColumnMenuProps) {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="flex items-center justify-center w-8 h-8 rounded-full text-app-subtle hover:text-app-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <Menu.Button className="flex items-center justify-center w-7 h-7 rounded-md text-app-subtle hover:text-app-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors pointer-events-auto shrink-0">
                     <EllipsisHorizontalIcon className="w-5 h-5" />
                 </Menu.Button>
             </div>

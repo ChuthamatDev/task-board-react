@@ -7,9 +7,10 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 interface TaskListProps {
     tasks: Task[]
     onEdit?: (task: Task) => void
+    disabled?: boolean
 }
 
-function TaskList({ tasks, onEdit }: TaskListProps) {
+function TaskList({ tasks, onEdit, disabled = false }: TaskListProps) {
     const { deleteTask } = useTasks()
     const taskIds = useMemo(() => tasks.map((t) => t.id), [tasks])
 
@@ -21,6 +22,7 @@ function TaskList({ tasks, onEdit }: TaskListProps) {
                     task={task}
                     onEdit={onEdit}
                     onDelete={deleteTask}
+                    disabled={disabled}
                 />
             ))}
         </SortableContext>
