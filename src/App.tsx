@@ -1,9 +1,4 @@
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Navigate,
-} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './routes/ProtectedRoute'
 import SignIn from './pages/SignIn'
@@ -16,7 +11,8 @@ import TaskProvider from './contexts/TaskContext'
 import ColumnProvider from './contexts/ColumnContext'
 import AlertProvider from './contexts/AlertContext'
 import { AppLayout } from './components/AppLayout'
-
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 function App() {
     return (
@@ -37,6 +33,14 @@ function App() {
                                         <Route
                                             path="/register"
                                             element={<SignUp />}
+                                        />
+                                        <Route
+                                            path="/forgot-password"
+                                            element={<ForgotPassword />}
+                                        />
+                                        <Route
+                                            path="/reset-password"
+                                            element={<ResetPassword />}
                                         />
 
                                         <Route element={<ProtectedRoute />}>

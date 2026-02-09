@@ -31,3 +31,23 @@ api.interceptors.response.use(
 )
 
 export default api
+
+export const auth = {
+    forgotPassword: async (username: string) => {
+        const response = await api.post('/auth/forgot-password', { username })
+        return response.data
+    },
+
+    resetPassword: async (
+        token: string,
+        newPassword: string,
+        confirmPassword: string
+    ) => {
+        const response = await api.post('/auth/reset-password', {
+            token,
+            newPassword,
+            confirmPassword,
+        })
+        return response.data
+    },
+}

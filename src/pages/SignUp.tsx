@@ -7,12 +7,14 @@ import Input from '../components/ui/Input'
 import { useAlert } from '../contexts/AlertContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import Logo from '../assets/Logo'
+import PasswordToggleIcon from '../components/ui/PasswordToggleIcon'
 
 export default function SignUp() {
     const [usernameError, setUsernameError] = useState(false)
     const [usernameErrorMessage, setUsernameErrorMessage] = useState('')
     const [passwordError, setPasswordError] = useState(false)
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
 
     const { login } = useAuth()
     const navigate = useNavigate()
@@ -100,14 +102,12 @@ export default function SignUp() {
                                             : ''
                                     }
                                 />
-                                {usernameError && (
-                                    <p className="mt-1 text-xs text-red-500">
-                                        {usernameErrorMessage}
-                                    </p>
-                                )}
+                                <p className={`mt-1 text-xs min-h-[1.25rem] ${usernameError ? 'text-red-500' : 'invisible'}`}>
+                                    {usernameError ? usernameErrorMessage : 'placeholder'}
+                                </p>
                             </div>
 
-                            <div>
+                            <div className="relative">
                                 <label
                                     htmlFor="password"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -115,22 +115,29 @@ export default function SignUp() {
                                     Password
                                 </label>
                                 <Input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
                                     required
                                     className={
                                         passwordError
-                                            ? 'border-red-500 focus:ring-red-500'
-                                            : ''
+                                            ? 'border-red-500 focus:ring-red-500 pr-10'
+                                            : 'pr-10'
                                     }
                                 />
-                                {passwordError && (
-                                    <p className="mt-1 text-xs text-red-500">
-                                        {passwordErrorMessage}
-                                    </p>
-                                )}
+                                <p className={`mt-1 text-xs min-h-[1.25rem] ${passwordError ? 'text-red-500' : 'invisible'}`}>
+                                    {passwordError ? passwordErrorMessage : 'placeholder'}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                    className="absolute right-4 top-12 -translate-y-1/2 flex items-center cursor-pointer text-gray-500 hover:text-gray-700 focus:outline-none"
+                                >
+                                    <PasswordToggleIcon isVisible={showPassword} />
+                                </button>
                             </div>
 
                             <div className="flex items-start">

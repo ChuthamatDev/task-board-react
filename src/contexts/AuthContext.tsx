@@ -5,6 +5,7 @@ import {
     useEffect,
     ReactNode,
 } from 'react'
+import api from '../services/api'
 
 interface AuthContextType {
     user: any | null
@@ -55,7 +56,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return (
         <AuthContext.Provider
-            value={{ user, isAuthenticated: !!user, login, logout, isLoading }}
+            value={{
+                user,
+                isAuthenticated: !!user,
+                login,
+                logout,
+                isLoading,
+            }}
         >
             {children}
         </AuthContext.Provider>
