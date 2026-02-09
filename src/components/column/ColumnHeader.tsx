@@ -19,7 +19,7 @@ function ColumnHeader({
     color,
 }: ColumnHeaderProps) {
     return (
-        <div className="flex items-center justify-between px-2 py-0.5 group">
+        <div className="flex items-center justify-between px-2 py-1 group">
             <div className="flex items-center gap-2.5 overflow-hidden">
                 <div
                     className={clsx(
