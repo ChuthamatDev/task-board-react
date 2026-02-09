@@ -99,7 +99,7 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         btn_delete: 'ลบ',
         btn_confirm: 'ยืนยันการลบ',
         btn_cancel: 'ยกเลิก',
-        btn_save: 'บันทึกการแก้ไข',
+        btn_save: 'บันทึก',
         btn_refresh: 'รีเฟรช',
         label_title: 'ชื่องาน',
         label_desc: 'รายละเอียด',
