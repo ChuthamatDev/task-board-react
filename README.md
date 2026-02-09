@@ -309,22 +309,8 @@ npm run deploy
 
 ---
 
-## 📄 ใบอนุญาตและลิขสิทธิ์
+## 📄 License
 
-**Copyright © 2026 Phraew Chuthamat. All rights reserved.**
+This project is licensed under the ISC License.
 
-โปรเจคนี้เป็นโอเพนซอร์สและเผยแพร่ภายใต้ [MIT License](LICENSE)  
-คุณสามารถใช้งาน แก้ไข และแจกจ่ายซอฟต์แวร์นี้ได้อย่างอิสระ โดยต้องรักษาประกาศลิขสิทธิ์และใบอนุญาตนี้ไว้
-
----
-
-## 🎯 การปรับปรุงในอนาคต
-
-- [ ] เพิ่มการอัปเดตแบบเรียลไทม์ด้วย WebSockets
-- [ ] ใช้งานความคิดเห็นของงาน
-- [ ] เพิ่มไฟล์แนบให้กับงาน
-- [ ] การจัดการโปรไฟล์ผู้ใช้
-- [ ] ฟีเจอร์การทำงานร่วมกันของทีม
-- [ ] การแจ้งเตือนทางอีเมล
-- [ ] แอปมือถือ (React Native)
-- [ ] โหมดออฟไลน์ด้วย service workers
+Created by [phraewchuthamat](https://github.com/phraewchuthamat)
