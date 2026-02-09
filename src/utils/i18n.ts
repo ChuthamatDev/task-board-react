@@ -53,7 +53,6 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     en: {
         app_title: 'TaskBoard',
         app_sub: 'Manage your team tasks',
-        // Actions
         btn_new_task: 'New Task',
         btn_edit: 'Edit',
         btn_delete: 'Delete',
@@ -61,35 +60,28 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         btn_cancel: 'Cancel',
         btn_save: 'Save',
         btn_refresh: 'Refresh',
-        // Labels
         label_title: 'Task Title',
         label_desc: 'Description',
         label_priority: 'Priority Level',
         placeholder_title: 'What needs to be done?',
         placeholder_desc: 'Add more details...',
         placeholder_search: 'Search tasks...',
-        // Dialogs
         dialog_del_title: 'Delete this task?',
         dialog_del_desc: 'This action cannot be undone. Are you sure?',
-        // Status
         status_draft: 'Draft',
         status_todo: 'To Do',
         status_doing: 'In Progress',
         status_done: 'Completed',
-        // Empty
         empty_col: 'No tasks yet',
         drop_here: 'Drop task here!',
-        // Alerts
         alert_create_success: 'New task created!',
         alert_delete_success: 'Task deleted successfully.',
         alert_update_success: 'Changes saved!',
-        // Cloumn
         btn_new_column: 'Add New Column',
         column_title: 'Enter column title...',
         column_select_color: 'Select color:',
         column_edit: 'Edit Column',
         column_delete: 'Delete Column',
-        //Priority
         priority_low: 'Low',
         priority_medium: 'Medium',
         priority_high: 'High',
@@ -102,7 +94,6 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     th: {
         app_title: 'บอร์ดงาน',
         app_sub: 'บริหารจัดการงานของทีมของคุณ',
-        // Actions
         btn_new_task: 'เพิ่มงานใหม่',
         btn_edit: 'แก้ไข',
         btn_delete: 'ลบ',
@@ -110,35 +101,28 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         btn_cancel: 'ยกเลิก',
         btn_save: 'บันทึกการแก้ไข',
         btn_refresh: 'รีเฟรช',
-        // Labels
         label_title: 'ชื่องาน',
         label_desc: 'รายละเอียด',
         label_priority: 'ระดับความสำคัญ',
         placeholder_title: 'มีอะไรต้องทำบ้าง?',
         placeholder_desc: 'ใส่รายละเอียดเพิ่มเติม...',
         placeholder_search: 'ค้นหางาน...',
-        // Dialogs
         dialog_del_title: 'ลบงานนี้?',
         dialog_del_desc: 'คุณแน่ใจนะ? ลบแล้วกู้คืนไม่ได้นะครับ',
-        // Status
         status_draft: 'แบบร่าง',
         status_todo: 'สิ่งที่ต้องทำ',
         status_doing: 'กำลังลุย',
         status_done: 'เสร็จแล้ว',
-        // Empty
         empty_col: 'ยังไม่มีงาน',
         drop_here: 'วางงานที่นี่!',
-        // Alerts
         alert_create_success: 'สร้างงานใหม่แล้ว!',
         alert_delete_success: 'ลบงานเรียบร้อย',
         alert_update_success: 'บันทึกเรียบร้อย!',
-        // Column
         btn_new_column: 'เพิ่มคอลัมน์ใหม่',
         column_title: 'ชื่อคอลัมน์',
         column_select_color: 'เลือกสี',
         column_edit: 'แก้ไขคอลัมน์',
         column_delete: 'ลบคอลัมน์',
-        // Priority
         priority_low: 'ต่ำ',
         priority_medium: 'ปานกลาง',
         priority_high: 'สูง',

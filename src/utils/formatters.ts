@@ -41,5 +41,4 @@ export const COLUMN_COLORS: Record<string, string> = {
     indigo: 'bg-indigo-500',
 }
 
-/** Default color for columns when no color is specified */
 export const DEFAULT_COLUMN_COLOR = COLUMN_COLORS.gray

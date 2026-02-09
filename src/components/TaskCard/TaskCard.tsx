@@ -50,31 +50,16 @@ function TaskCard({
             {...attributes}
             {...listeners}
             className={clsx(
-                // Base Shape & Layout
                 'relative rounded-lg p-4 gap-4',
                 'touch-none cursor-grab active:cursor-grabbing',
-
-                // --- MUI Card Style (Outlined Variant) ---
-                // Transition (ให้ Animation ลื่นไหล แต่ไม่กระทบตอนลาก)
                 'transition-all duration-200 ease-out',
-
-                // Background
                 'bg-white',
                 'dark:bg-[hsla(220,35%,3%,0.4)]',
-
-                // Border
                 'border',
                 'border-[hsla(220,20%,80%,0.4)]',
                 'dark:border-[hsla(220,20%,25%,0.6)]',
-
-                // Shadow (ปกติไม่มีเงา)
                 'shadow-none',
-
-                // --- Dragging States (แก้ไขตรงนี้) ---
-                // ลบ rotate-2 และ scale-105 ออก ให้เหลือแค่เงาและ Opacity
                 isOverlay && 'pointer-events-none opacity-90 shadow-xl z-50 cursor-grabbing',
-
-                // ตอนตัวจริงโดนลาก ให้จางลง
                 isDragging && 'opacity-30'
             )}
         >
