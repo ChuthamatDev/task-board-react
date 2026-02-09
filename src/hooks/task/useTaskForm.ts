@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useAlert } from '../../contexts/AlertContext'
 import { useTasks } from '../../contexts/TaskContext'
-import { Task, Priority } from '../../utils/storage'
+import { Task, Priority } from '../../utils/types'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 export interface TaskFormData {

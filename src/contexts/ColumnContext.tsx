@@ -7,9 +7,10 @@ import {
     useState,
     useMemo,
 } from 'react'
-import { Column, DEFAULT_COLUMN_COLOR } from '../utils/storage'
+import { Column, DEFAULT_COLUMN_COLOR } from '../utils/types'
 import api from '../services/api'
 import { useAuth } from './AuthContext'
+import { useAlert } from './AlertContext'
 
 interface ColumnContextType {
     columns: Column[]
@@ -23,6 +24,7 @@ const ColumnContext = createContext<ColumnContextType | undefined>(undefined)
 export default function ColumnProvider({ children }: { children: ReactNode }) {
     const [columns, setColumns] = useState<Column[]>([])
     const { isAuthenticated } = useAuth()
+    const { setAlert } = useAlert()
 
     const fetchColumns = useCallback(async () => {
         if (!isAuthenticated) {
@@ -33,7 +35,7 @@ export default function ColumnProvider({ children }: { children: ReactNode }) {
             const response = await api.get('/columns')
             setColumns(response.data)
         } catch (error) {
-            console.error('Error fetching columns', error)
+            setAlert('Failed to fetch columns', 'error')
         }
     }, [isAuthenticated])
 
@@ -51,7 +53,7 @@ export default function ColumnProvider({ children }: { children: ReactNode }) {
                 })
                 fetchColumns()
             } catch (error) {
-                console.error('Error adding column', error)
+                setAlert('Failed to add column', 'error')
             }
         },
         [fetchColumns]
@@ -68,7 +70,7 @@ export default function ColumnProvider({ children }: { children: ReactNode }) {
 
                 await api.patch(`/columns/${id}`, updates)
             } catch (error) {
-                console.error('Error updating column', error)
+                setAlert('Failed to update column', 'error')
                 fetchColumns()
             }
         },
@@ -81,7 +83,7 @@ export default function ColumnProvider({ children }: { children: ReactNode }) {
                 setColumns((prev) => prev.filter((col) => col.id !== id))
                 await api.delete(`/columns/${id}`)
             } catch (error) {
-                console.error('Error deleting column', error)
+                setAlert('Failed to delete column', 'error')
                 fetchColumns()
             }
         },

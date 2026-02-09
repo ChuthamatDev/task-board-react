@@ -19,5 +19,12 @@ export interface Column {
     color?: string
 }
 
+export interface TaskCreateData {
+    title: string
+    description: string
+    priority: Priority
+}
+
 
 export const DEFAULT_COLUMN_COLOR = 'bg-gray-500'
+

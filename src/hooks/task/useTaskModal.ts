@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { Task } from '../../utils/storage'
+import { Task } from '../../utils/types'
 
 export function useTaskModal() {
     const [isOpen, setIsOpen] = useState(false)

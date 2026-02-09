@@ -1,7 +1,7 @@
 import { useColumns } from '../../contexts/ColumnContext'
 import TaskColumn from '../column/TaskColumn'
 import AddColumnButton from '../column/AddColumnButton'
-import { Task } from '../../utils/storage'
+import { Task } from '../../utils/types'
 
 interface BoardColumnsProps {
     tasks: Task[]

@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import clsx from 'clsx'
-import { Task } from '../../utils/storage'
+import { Task } from '../../utils/types'
 import TaskCardMeta from './TaskCardMeta'
 import TaskCardActions from './TaskCardActions'
 

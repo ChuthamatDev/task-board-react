@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { DragStartEvent, DragOverEvent, DragEndEvent } from '@dnd-kit/core'
-import { Task, Column } from '../utils/storage'
+import { Task, Column } from '../utils/types'
 
 const calculateNewPosition = (tasks: Task[], newIndex: number): number => {
     if (tasks.length === 0) return 1000

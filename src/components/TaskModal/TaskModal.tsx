@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import TaskForm from './TaskForm'
 import useTaskForm from '../../hooks/task/useTaskForm'
-import { Task } from '../../utils/storage'
+import { Task } from '../../utils/types'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface TaskModalProps {

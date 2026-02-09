@@ -2,7 +2,7 @@ import { useState, FormEvent } from 'react'
 import Button from '../ui/Button'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import Input from '../ui/Input'
-import { COLUMN_COLORS, DEFAULT_COLUMN_COLOR, migrateColor } from '../../utils/formatters'
+import { COLUMN_COLORS, migrateColor } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface ColumnFormProps {
@@ -22,7 +22,7 @@ export default function ColumnForm({
     const [title, setTitle] = useState(initialData?.title || '')
     const { trans } = useLanguage()
 
-    const [selectedColor, setSelectColor] = useState(() => {
+    const [selectedColor, setSelectedColor] = useState(() => {
         return migrateColor(initialData?.color)
     })
 
@@ -60,7 +60,7 @@ export default function ColumnForm({
                         <button
                             key={name}
                             type="button"
-                            onClick={() => setSelectColor(colorClass)}
+                            onClick={() => setSelectedColor(colorClass)}
                             className={`
                                 w-8 h-8 rounded-full ${colorClass} 
                                 flex items-center justify-center

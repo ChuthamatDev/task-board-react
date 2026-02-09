@@ -24,9 +24,9 @@ function App() {
             <AuthProvider>
                 <ThemeProvider>
                     <LanguageProvider>
-                        <ColumnProvider>
-                            <TaskProvider>
-                                <AlertProvider>
+                        <AlertProvider>
+                            <ColumnProvider>
+                                <TaskProvider>
                                     <AlertPopup />
 
                                     <Routes>
@@ -67,9 +67,9 @@ function App() {
                                             }
                                         />
                                     </Routes>
-                                </AlertProvider>
-                            </TaskProvider>
-                        </ColumnProvider>
+                                </TaskProvider>
+                            </ColumnProvider>
+                        </AlertProvider>
                     </LanguageProvider>
                 </ThemeProvider>
             </AuthProvider>

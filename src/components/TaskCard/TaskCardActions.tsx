@@ -1,6 +1,6 @@
 import { useState, memo } from 'react'
 import { XMarkIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
-import { Task } from '../../utils/storage'
+import { Task } from '../../utils/types'
 import ConfirmDialog from '../dialog/ConfirmDialog'
 import { useAlert } from '../../contexts/AlertContext'
 import { useLanguage } from '../../contexts/LanguageContext'

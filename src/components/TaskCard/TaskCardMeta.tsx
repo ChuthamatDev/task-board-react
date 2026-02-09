@@ -1,6 +1,6 @@
 import { CalendarIcon, FlagIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
-import { Task, Priority } from '../../utils/storage'
+import { Task, Priority } from '../../utils/types'
 import { formatDate } from '../../utils/formatters'
 
 interface TaskCardMetaProps {

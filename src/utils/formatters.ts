@@ -1,4 +1,4 @@
-import { Priority } from './storage'
+import { Priority } from './types'
 import { TranslationKey } from './i18n'
 
 export const formatDate = (dateString: string): string => {

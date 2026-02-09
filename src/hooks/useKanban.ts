@@ -1,20 +1,20 @@
 import { useMemo, useState, useCallback } from 'react'
 import { useTasks } from '../contexts/TaskContext'
-import { Priority, Task } from '../utils/storage'
+import { Priority, Task } from '../utils/types'
 
 export function useKanban() {
     const [searchQuery, setSearchQuery] = useState('')
     const [filterPriority, setFilterPriority] = useState<Priority | ''>('')
 
-    const { taskItems, updateTask, isLoading } = useTasks()
+    const { tasks, updateTask, isLoading } = useTasks()
 
     const filteredTasks = useMemo(() => {
-        if (!Array.isArray(taskItems)) {
-            console.warn('taskItems is not an array:', taskItems)
+        if (!Array.isArray(tasks)) {
+            console.warn('tasks is not an array:', tasks)
             return []
         }
 
-        return taskItems.filter((task) => {
+        return tasks.filter((task) => {
             const matchesSearch =
                 !searchQuery.trim() ||
                 task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -25,7 +25,7 @@ export function useKanban() {
                 !filterPriority || task.priority === filterPriority
             return matchesSearch && matchesPriority
         })
-    }, [taskItems, searchQuery, filterPriority])
+    }, [tasks, searchQuery, filterPriority])
 
     const calculateNewPosition = (
         tasksInColumn: Task[],
@@ -47,7 +47,7 @@ export function useKanban() {
 
     const moveTask = useCallback(
         async (taskId: string, newColumnId: string, newIndex: number) => {
-            const targetColumnTasks = taskItems.filter(
+            const targetColumnTasks = tasks.filter(
                 (t) => t.columnId === newColumnId && t.id !== taskId
             )
             const newPosition = calculateNewPosition(
@@ -60,22 +60,22 @@ export function useKanban() {
                 position: newPosition,
             })
         },
-        [taskItems, updateTask]
+        [tasks, updateTask]
     )
 
     const reorderTask = useCallback(
         async (taskId: string, newIndex: number) => {
-            const task = taskItems.find((t) => t.id === taskId)
+            const task = tasks.find((t) => t.id === taskId)
             if (!task) return
 
-            const columnTasks = taskItems.filter(
+            const columnTasks = tasks.filter(
                 (t) => t.columnId === task.columnId && t.id !== taskId
             )
             const newPosition = calculateNewPosition(columnTasks, newIndex)
 
             await updateTask(taskId, { position: newPosition })
         },
-        [taskItems, updateTask]
+        [tasks, updateTask]
     )
 
     return {
@@ -87,6 +87,6 @@ export function useKanban() {
         isLoading,
         moveTask,
         reorderTask,
-        taskItems,
+        tasks,
     }
 }

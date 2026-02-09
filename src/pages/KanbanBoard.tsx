@@ -39,7 +39,7 @@ export default function KanbanBoard() {
         setFilterPriority,
         filteredTasks,
         isLoading,
-        taskItems,
+        tasks,
     } = useKanban()
 
     const { columns } = useColumns()
@@ -47,7 +47,7 @@ export default function KanbanBoard() {
     const { updateTask } = useTasks()
 
     const { activeTask, onDragStart, onDragOver, onDragEnd, onDragCancel } = useBoardDrag(
-        taskItems,
+        tasks,
         columns,
         (id, newColumnId, newPosition) => {
             updateTask(id, { columnId: newColumnId, position: newPosition })

@@ -1,16 +1,15 @@
 import { memo, useMemo } from 'react'
 import TaskCard from '../TaskCard/TaskCard'
-import { Task } from '../../utils/storage'
+import { Task } from '../../utils/types'
 import { useTasks } from '../../contexts/TaskContext'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 interface TaskListProps {
     tasks: Task[]
     onEdit?: (task: Task) => void
-    disabled?: boolean
 }
 
-function TaskList({ tasks, onEdit, disabled = false }: TaskListProps) {
+function TaskList({ tasks, onEdit }: TaskListProps) {
     const { deleteTask } = useTasks()
     const taskIds = useMemo(() => tasks.map((t) => t.id), [tasks])
 
@@ -22,7 +21,6 @@ function TaskList({ tasks, onEdit, disabled = false }: TaskListProps) {
                     task={task}
                     onEdit={onEdit}
                     onDelete={deleteTask}
-                    disabled={disabled}
                 />
             ))}
         </SortableContext>

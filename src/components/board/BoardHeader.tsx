@@ -3,7 +3,7 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import Button from '../ui/Button'
 import RefreshButton from '../ui/RefreshButton'
 import SearchBar from '../ui/SearchBar'
-import { Priority } from '../../utils/storage'
+import { Priority } from '../../utils/types'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface BoardHeaderProps {

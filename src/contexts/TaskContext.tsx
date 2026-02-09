@@ -6,15 +6,16 @@ import {
     useContext,
     ReactNode,
 } from 'react'
-import { Task } from '../utils/storage'
+import { Task, TaskCreateData } from '../utils/types'
 import api from '../services/api'
 import { useColumns } from './ColumnContext'
 import { useAuth } from './AuthContext'
+import { useAlert } from './AlertContext'
 
 interface TaskContextType {
-    taskItems: Task[]
+    tasks: Task[]
     isLoading: boolean
-    createTask: (taskData: any) => Promise<void>
+    createTask: (taskData: TaskCreateData) => Promise<void>
     updateTask: (id: string, updates: Partial<Task>) => Promise<void>
     deleteTask: (id: string) => Promise<void>
     fetchTasks: () => Promise<void>
@@ -23,10 +24,11 @@ interface TaskContextType {
 const TaskContext = createContext<TaskContextType | undefined>(undefined)
 
 export default function TaskProvider({ children }: { children: ReactNode }) {
-    const [taskItems, setTaskItems] = useState<Task[]>([])
+    const [tasks, setTasks] = useState<Task[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const { columns } = useColumns()
     const { isAuthenticated } = useAuth()
+    const { setAlert } = useAlert()
 
     const fetchTasks = useCallback(async () => {
         if (!isAuthenticated) {
@@ -37,10 +39,10 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
         setIsLoading(true)
         try {
             const res = await api.get('/tasks')
-            setTaskItems(res.data?.data || [])
+            setTasks(res.data?.data || [])
         } catch (error) {
-            console.error('Error fetching:', error)
-            setTaskItems([])
+            setAlert('Failed to fetch tasks', 'error')
+            setTasks([])
         } finally {
             setIsLoading(false)
         }
@@ -56,7 +58,7 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
                 const defaultColumnId = columns[0]?.id
 
                 if (!defaultColumnId) {
-                    console.error('No columns available to create task')
+                    setAlert('No columns available to create task', 'error')
                     return
                 }
 
@@ -66,7 +68,7 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
                 })
                 fetchTasks()
             } catch (error) {
-                console.error(error)
+                setAlert('Failed to create task', 'error')
             }
         },
         [fetchTasks, columns]
@@ -75,13 +77,13 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
     const updateTask = useCallback(
         async (id: string, updates: Partial<Task>) => {
             try {
-                setTaskItems((prev) =>
+                setTasks((prev) =>
                     prev.map((t) => (t.id === id ? { ...t, ...updates } : t))
                 )
 
                 await api.patch(`/tasks/${id}`, updates)
             } catch (error) {
-                console.error(error)
+                setAlert('Failed to update task', 'error')
                 fetchTasks()
             }
         },
@@ -91,10 +93,10 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
     const deleteTask = useCallback(
         async (id: string) => {
             try {
-                setTaskItems((prev) => prev.filter((t) => t.id !== id))
+                setTasks((prev) => prev.filter((t) => t.id !== id))
                 await api.delete(`/tasks/${id}`)
             } catch (error) {
-                console.error(error)
+                setAlert('Failed to delete task', 'error')
                 fetchTasks()
             }
         },
@@ -104,7 +106,7 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
     return (
         <TaskContext.Provider
             value={{
-                taskItems,
+                tasks,
                 isLoading,
                 createTask,
                 updateTask,

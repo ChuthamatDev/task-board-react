@@ -7,7 +7,7 @@ import ColumnContainer from './ColumnContainer'
 import ColumnForm from './ColumnForm'
 import ConfirmDialog from '../dialog/ConfirmDialog'
 import { useColumnForm } from '../../hooks/column/useColumnForm'
-import { Task, Column } from '../../utils/storage'
+import { Task, Column } from '../../utils/types'
 import { migrateColor } from '../../utils/formatters'
 import { useLanguage } from '../../contexts/LanguageContext'
 
@@ -77,7 +77,7 @@ function TaskColumn({ column, tasks, onEdit }: TaskColumnProps) {
                                 : 'bg-transparent'
                         )}
                     >
-                        <TaskList tasks={tasks} onEdit={onEdit} disabled={isEditing} />
+                        <TaskList tasks={tasks} onEdit={onEdit} />
 
                         {tasks.length === 0 && (
                             <div
