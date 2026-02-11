@@ -26,10 +26,9 @@ export default function Navbar() {
         <Disclosure
             as="nav"
             className="relative transition-colors duration-300 
-            bg-white dark:bg-[hsl(220,35%,3%)] 
-            border-b border-gray-200 dark:border-gray-800
-            shadow-[0px_4px_16px_0px_hsla(220,30%,5%,0.07),0px_8px_16px_-5px_hsla(220,25%,10%,0.07)]
-            dark:shadow-[0px_4px_16px_0px_hsla(220,30%,5%,0.7),0px_8px_16px_-5px_hsla(220,25%,10%,0.8)]"
+            bg-app-surface
+            border-b border-app-border
+            shadow-app-base"
         >
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
@@ -43,12 +42,12 @@ export default function Navbar() {
 
                         {isAuthenticated && (
                             <>
-                                <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-semibold text-xs shadow-sm ring-2 ring-white dark:ring-gray-700 overflow-hidden">
+                                <div className="flex items-center gap-3 pl-4 border-l border-app-border">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-semibold text-xs shadow-sm ring-2 ring-app-surface overflow-hidden">
                                         {getInitials(displayName)}
                                     </div>
 
-                                    <span className="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    <span className="hidden md:block text-sm font-medium text-app-text">
                                         {displayName}
                                     </span>
                                 </div>

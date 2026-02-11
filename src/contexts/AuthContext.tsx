@@ -5,7 +5,6 @@ import {
     useEffect,
     ReactNode,
 } from 'react'
-import api from '../services/api'
 
 interface AuthContextType {
     user: any | null
