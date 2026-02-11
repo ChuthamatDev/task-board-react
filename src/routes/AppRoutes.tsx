@@ -6,7 +6,7 @@ import KanbanBoard from '../pages/KanbanBoard'
 import { AppLayout } from '../components/AppLayout'
 import ForgotPassword from '../pages/ForgotPassword'
 import ResetPassword from '../pages/ResetPassword'
-
+import ProfilePage from '../pages/ProfilePage'
 import NotFound from '../pages/NotFound'
 
 export const AppRoutes = () => {
@@ -20,6 +20,7 @@ export const AppRoutes = () => {
             <Route element={<ProtectedRoute />}>
                 <Route element={<AppLayout />}>
                     <Route path="/dashboard" element={<KanbanBoard />} />
+                    <Route path="/profile" element={<ProfilePage />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
             </Route>

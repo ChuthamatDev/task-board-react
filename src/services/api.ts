@@ -1,5 +1,11 @@
 import axios from 'axios'
 
+export interface UserProfile {
+    id: string
+    username: string
+    createdAt: string
+}
+
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000',
     headers: {
@@ -48,6 +54,16 @@ export const auth = {
             newPassword,
             confirmPassword,
         })
+        return response.data
+    },
+
+    getProfile: async () => {
+        const response = await api.get<UserProfile>('/auth/profile')
+        return response.data
+    },
+
+    updateProfile: async (data: { username?: string }) => {
+        const response = await api.put<UserProfile>('/auth/profile', data)
         return response.data
     },
 }

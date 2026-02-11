@@ -48,6 +48,14 @@ export type TranslationKey =
     | 'register'
     | 'logout'
     | 'add_column'
+    // Profile
+    | 'profile_setting'
+    | 'profile_sub'
+    | 'edit_profile'
+    | 'username'
+    | 'userId'
+    | 'member'
+    | 'joined'
 
 export const translations: Record<Language, Record<TranslationKey, string>> = {
     en: {
@@ -90,6 +98,13 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         register: 'Created account successfully',
         logout: 'Logout',
         add_column: 'Add Column',
+        profile_setting: 'Profile Settings',
+        profile_sub: 'Manage your account information',
+        edit_profile: 'Edit Profile',
+        username: 'Username',
+        userId: 'User ID',
+        member: 'Member',
+        joined: 'Joined',
     },
     th: {
         app_title: 'บอร์ดงาน',
@@ -131,5 +146,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
         register: 'สมัครสมาชิกสำเร็จ',
         logout: 'ออกจากระบบ',
         add_column: 'เพิ่มคอลัมน์',
+        profile_setting: 'การตั้งค่าโปรไฟล์',
+        profile_sub: 'จัดการข้อมูลบัญชีของคุณ',
+        edit_profile: 'แก้ไข โปรไฟล์',
+        username: 'ชื่อผู้ใช้',
+        userId: 'ไอดีผู้ใช้',
+        member: 'สมาชิก',
+        joined: 'เข้าร่วม เมื่อ',
     },
 }
