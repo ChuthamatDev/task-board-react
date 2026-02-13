@@ -8,32 +8,17 @@ import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import ThemeToggleButton from './ui/ThemeToggleButton'
 import LanguageSwitcher from './ui/LanguageSwitcher'
-import { useLanguage } from '../contexts/LanguageContext'
-import { useAuth } from '../contexts/AuthContext'
 import Logo from '../assets/Logo'
+import { useNavbar } from '../hooks/useNavbar'
 
 export default function Navbar() {
-    const { trans } = useLanguage()
-    const { isAuthenticated, logout, user } = useAuth()
-
-    const getInitials = (name: string) => {
-        if (!name) return '?'
-        const parts = name.trim().split(' ')
-        if (parts.length > 1) {
-            return (parts[0][0] + parts[1][0]).toUpperCase()
-        }
-        return name.slice(0, 2).toUpperCase()
-    }
-
-    const displayName = user?.username || user?.name || user?.email || 'Guest'
+    const { trans, isAuthenticated, logout, displayName, initials } =
+        useNavbar()
 
     return (
         <Disclosure
             as="nav"
-            className="sticky top-0 z-40 transition-colors duration-300 
-            bg-app-surface/80 backdrop-blur-md
-            border-b border-app-border
-            shadow-sm"
+            className="sticky top-0 z-40 transition-colors duration-300 bg-app-surface/80 backdrop-blur-md border-b border-app-border shadow-sm"
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
@@ -54,10 +39,11 @@ export default function Navbar() {
                                     <div>
                                         <Menu.Button className="cursor-pointer relative flex rounded-full bg-app-surface text-sm focus:outline-none focus:ring-2 focus:ring-app-primary focus:ring-offset-2 focus:ring-offset-app-surface transition-transform active:scale-95">
                                             <div className="cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-app-primary dark:bg-app-primary text-white font-bold text-sm shadow-md ring-2 ring-app-surface overflow-hidden">
-                                                {getInitials(displayName)}
+                                                {initials}
                                             </div>
                                         </Menu.Button>
                                     </div>
+
                                     <Transition
                                         as={Fragment}
                                         enter="transition ease-out duration-100"
@@ -89,10 +75,7 @@ export default function Navbar() {
                                                                 'group flex items-center px-4 py-2 text-sm transition-colors'
                                                             )}
                                                         >
-                                                            <UserCircleIcon
-                                                                className="mr-3 h-5 w-5 text-gray-400 group-hover:text-app-primary"
-                                                                aria-hidden="true"
-                                                            />
+                                                            <UserCircleIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-app-primary" />
                                                             Your Profile
                                                         </Link>
                                                     )}
@@ -111,10 +94,7 @@ export default function Navbar() {
                                                                 'group flex w-full items-center px-4 py-2 text-sm transition-colors'
                                                             )}
                                                         >
-                                                            <ArrowRightOnRectangleIcon
-                                                                className="mr-3 h-5 w-5 text-gray-400 group-hover:text-red-500"
-                                                                aria-hidden="true"
-                                                            />
+                                                            <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-red-500" />
                                                             {trans('logout')}
                                                         </button>
                                                     )}

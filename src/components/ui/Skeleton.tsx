@@ -4,7 +4,7 @@ interface SkeletonProps {
     className?: string
 }
 
-export default function Skeleton({ className }: SkeletonProps) {
+const Skeleton = ({ className }: SkeletonProps) => {
     return (
         <div
             className={clsx(
@@ -14,3 +14,5 @@ export default function Skeleton({ className }: SkeletonProps) {
         />
     )
 }
+
+export default Skeleton
