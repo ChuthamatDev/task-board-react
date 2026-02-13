@@ -17,11 +17,11 @@ import { useTaskModal } from '../hooks/task/useTaskModal'
 import { useKanban } from '../hooks/useKanban'
 import { useColumns } from '../contexts/ColumnContext'
 import { useTasks } from '../contexts/TaskContext'
-import LoadingScreen from '../components/ui/LoadingScreen'
 import BoardHeader from '../components/board/BoardHeader'
 import BoardColumns from '../components/board/BoardColumns'
 import TaskCard from '../components/TaskCard/TaskCard'
 import TaskModal from '../components/TaskModal/TaskModal'
+import BoardSkeleton from '../components/ui/KanbanBoard.Skeleton'
 
 const dropAnimationConfig: DropAnimation = {
     sideEffects: defaultDropAnimationSideEffects({
@@ -46,13 +46,10 @@ export default function KanbanBoard() {
 
     const { updateTask } = useTasks()
 
-    const { activeTask, onDragStart, onDragOver, onDragEnd, onDragCancel } = useBoardDrag(
-        tasks,
-        columns,
-        (id, newColumnId, newPosition) => {
+    const { activeTask, onDragStart, onDragOver, onDragEnd, onDragCancel } =
+        useBoardDrag(tasks, columns, (id, newColumnId, newPosition) => {
             updateTask(id, { columnId: newColumnId, position: newPosition })
-        }
-    )
+        })
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -66,7 +63,9 @@ export default function KanbanBoard() {
 
     const modal = useTaskModal()
 
-    if (isLoading) return <LoadingScreen text="Loading board..." />
+    if (isLoading) {
+        return <BoardSkeleton />
+    }
 
     return (
         <DndContext

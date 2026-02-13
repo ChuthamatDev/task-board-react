@@ -10,6 +10,7 @@ import { auth, UserProfile } from '../services/api'
 import { Link } from 'react-router-dom'
 import { useAlert } from '../contexts/AlertContext'
 import { useLanguage } from '../contexts/LanguageContext'
+import ProfileSkeleton from '../components/ui/ProfileSkeleton'
 
 export default function ProfilePage() {
     const { setAlert } = useAlert()
@@ -58,11 +59,7 @@ export default function ProfilePage() {
     }
 
     if (isLoading) {
-        return (
-            <div className="flex h-[50vh] items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-app-primary border-t-transparent"></div>
-            </div>
-        )
+        return <ProfileSkeleton />
     }
 
     return (

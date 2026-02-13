@@ -19,6 +19,7 @@ export const AppRoutes = () => {
 
             <Route element={<ProtectedRoute />}>
                 <Route element={<AppLayout />}>
+                    <Route path="/" element={<SignIn />} />
                     <Route path="/dashboard" element={<KanbanBoard />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="*" element={<NotFound />} />
