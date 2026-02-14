@@ -4,11 +4,13 @@
 ออกแบบมาเพื่อแสดงให้เห็นถึงสถาปัตยกรรม frontend ที่ทันสมัย การจัดการ state ที่ซับซ้อน และการลากวางที่มีประสิทธิภาพสูง
 
 - 🔗 **Backend Repository:** [task-board-api](https://github.com/phraewchuthamat/task-board-api)
+- 🚀 **Live Demo:** [Task Board App](https://task-board-react-ivory.vercel.app/login)
 
 ![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![Vite](https://img.shields.io/badge/Vite-Fast-646CFF?style=for-the-badge&logo=vite)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)
 
 ---
 
@@ -19,17 +21,19 @@
 - **ลากและวาง:** บอร์ดแบบโต้ตอบเต็มรูปแบบด้วย `@dnd-kit` รองรับการ**จัดเรียง**งานภายในคอลัมน์และ**ย้าย**งานระหว่างคอลัมน์พร้อมแอนิเมชันที่ลื่นไหล
 - **CRUD Operations:** สร้าง อ่าน อัปเดต และลบงานพร้อมการอัปเดต UI แบบเรียลไทม์
 - **ค้นหาและกรอง:** ค้นหาทันทีตามชื่อ/รายละเอียด และกรองตามความสำคัญ (ต่ำ, กลาง, สูง)
-- **JWT Authentication:** การยืนยันตัวตนที่ปลอดภัยพร้อมฟังก์ชันเข้าสู่ระบบ/ออกจากระบบ
+- **ระบบสมาชิกครบวงจร:** สมัครสมาชิก, เข้าสู่ระบบ, ลืมรหัสผ่าน, รีเซ็ตรหัสผ่าน และแก้ไขโปรไฟล์
+- **JWT Authentication:** การยืนยันตัวตนที่ปลอดภัยพร้อมระบบ Refresh Token อัตโนมัติ
 
 ### 🎨 ประสบการณ์ผู้ใช้ (UX)
 - **เลย์เอาต์สไตล์ Jira:** ความสูงวิวพอร์ตคงที่พร้อมการเลื่อนภายในแบบอิสระสำหรับคอลัมน์และการเลื่อนแนวนอนสำหรับบอร์ด
 - **Snap Scrolling:** การใช้งาน CSS Scroll Snap เพื่อให้รู้สึกเหมือนแอปพลิเคชันดั้งเดิมบนอุปกรณ์สัมผัส
-- **โหมดมืด/สว่าง:** การสลับธีมที่รู้จักระบบพร้อมการบันทึกค่าที่ตั้ง
+- **โหมดมืด/สว่าง:** การสลับธีมที่รู้จักระบบพร้อมการบันทึกค่าที่ตั้ง (Persisted Theme)
 - **หลายภาษา (i18n):** สลับภาษาทันที (อังกฤษ/ไทย) โดยไม่ต้องโหลดหน้าใหม่โดยใช้ React Context
 - **การออกแบบแบบ Responsive:** แนวทาง Mobile-first ปรับให้เหมาะกับโทรศัพท์ แท็บเล็ต และเดสก์ท็อป
+- **Micro-interactions:** แอนิเมชัน (Framer Motion) และการตอบสนองต่อผู้ใช้ที่ลื่นไหล
 
 ### 💾 การจัดเก็บข้อมูล
-- **การเชื่อมต่อ Backend API:** ข้อมูลงานและคอลัมน์ถูกเก็บผ่าน RESTful API พร้อม JWT authentication
+- **การเชื่อมต่อ Backend API:** เชื่อมต่อกับ Backend ที่เก็บข้อมูลบน **PostgreSQL**
 - **Local Storage:** ธีมและการตั้งค่าภาษาถูกเก็บไว้ในเครื่องเพื่อการโหลดที่รวดเร็ว
 - **Optimistic Updates:** ข้อเสนอแนะ UI ทันทีก่อนการยืนยันจาก API
 
@@ -38,50 +42,45 @@
 ## 🛠️ จุดเด่นทางเทคนิค
 
 ### 1. สถาปัตยกรรมและการจัดการ State
-- **Context API:** ระบบจัดการ state แบบรวมศูนย์สำหรับงาน คอลัมน์ การยืนยันตัวตน ธีม และภาษา
-- **Custom Hooks:** ตรรกะที่แยกออกมาเป็น hooks ที่ใช้ซ้ำได้เช่น `useBoardDrag`, `useTaskModal`, `useAuth` และ `useLanguage` เพื่อรักษา**การแยกส่วนของความกังวล**
+- **Context API:** ระบบจัดการ state แบบรวมศูนย์สำหรับงาน (`TaskContext`), คอลัมน์ (`ColumnContext`), การยืนยันตัวตน (`AuthContext`), ธีม (`ThemeContext`), ภาษา (`LanguageContext`) และการแจ้งเตือน (`AlertContext`)
+- **Custom Hooks:** แยกลอจิกการทำงานออกจาก UI เช่น `useBoardDrag`, `useTaskModal`, `useAuth` เพื่อความสะอาดและนำกลับมาใช้ใหม่ได้ง่าย
 
 ### 2. การรวม TypeScript
-- โค้ดเบสที่มีการกำหนดประเภทอย่างเต็มรูปแบบด้วย interfaces สำหรับ `Task`, `Column`, `Priority`, `User`
-- การตรวจสอบประเภทที่เข้มงวดเพื่อป้องกันข้อผิดพลาดในขณะทำงานและปรับปรุงการบำรุงรักษาโค้ด
+- **Type Safety:** โค้ดเบสที่มีการกำหนดประเภทอย่างเต็มรูปแบบด้วย interfaces สำหรับ `Task`, `Column`, `Priority`, `User` และ DTOs
+- **Strict Mode:** ป้องกันข้อผิดพลาดที่อาจเกิดขึ้นขณะ runtime
 
 ### 3. การเพิ่มประสิทธิภาพ
-- **React.memo:** ใช้กับ `TaskCard` และ `TaskColumn` เพื่อป้องกันการ re-render ที่ไม่จำเป็นระหว่างการลาก
-- **Event Delegation:** เซ็นเซอร์สัมผัส/คลิกที่ปรับให้เหมาะสมใน `dnd-kit` เพื่อจัดการความขัดแย้งระหว่างการลากและการคลิกปุ่ม
-- **Code Splitting:** การนำเข้าแบบไดนามิกเพื่อขนาด bundle ที่เหมาะสม
+- **Performance Optimization:** ใช้ `React.memo` และ `useCallback` เพื่อลดการ re-render ที่ไม่จำเป็น
+- **Code Splitting:** การนำเข้าแบบไดนามิกผ่าน Vite เพื่อขนาด bundle ที่เหมาะสม
+- **CSS Optimization:** ใช้ Tailwind CSS v4 ที่มีประสิทธิภาพสูง
 
-### 4. การรวม API
-- **Axios Interceptors:** การฉีดโทเค็นอัตโนมัติและการจัดการ refresh token
-- **Error Handling:** การจัดการข้อผิดพลาดที่ครอบคลุมพร้อมข้อความที่เป็นมิตรกับผู้ใช้
-- **Protected Routes:** การป้องกันเส้นทางเพื่อป้องกันการเข้าถึงที่ไม่ได้รับอนุญาต
-
-### 5. การเข้าถึงและความสมบูรณ์
-- **สีที่เข้าถึงได้:** สีที่มีความตัดกันสูงสำหรับข้อความและป้าย
-- **กล่องโต้ตอบยืนยัน:** การออกแบบ UX แบบป้องกันเพื่อป้องกันการสูญเสียข้อมูลโดยไม่ตั้งใจ
-- **สถานะการโหลด:** หน้าจอโครงร่างและตัวบ่งชี้การโหลด
+### 4. การรวม API & Security
+- **Axios Interceptors:** จัดการ Token (Attach/Refresh) และ Error Handling (401/403) โดยอัตโนมัติ
+- **Secure Handling:** ป้องกัน Unauthorized Access ด้วย `ProtectedRoute` และจัดการ Redirect อย่างเหมาะสม
 
 ---
 
 ## 💻 เทคโนโลยีที่ใช้
 
 ### Frontend
-- **Framework:** React 19 (Vite)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS 4, Headless UI, Material-UI
+- **Runtime/Build:** React 19 (Vite)
+- **Language:** TypeScript 5
+- **Styling:** Tailwind CSS 4, Headless UI, MUI Material
+- **Forms:** React Hook Form
 - **Drag & Drop:** @dnd-kit (Core, Sortable, Utilities)
-- **HTTP Client:** Axios with interceptors
+- **Animation:** Framer Motion, React Animations
+- **HTTP Client:** Axios
 - **Routing:** React Router v6
 - **Icons:** Heroicons
 - **Tools:** ESLint, Prettier
 
 ### Backend
-> **หมายเหตุ:** นี่คือ repository ของ frontend สำหรับการตั้งค่า backend และเอกสาร API โปรดไปที่ [task-board-api](https://github.com/phraewchuthamat/task-board-api)
+> **หมายเหตุ:** โปรเจคนี้เป็นส่วนของ Frontend เท่านั้น สำหรับ Backend API สามารถดูได้ที่ [task-board-api](https://github.com/phraewchuthamat/task-board-api)
 
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MySQL 8.0 with Prisma ORM
-- **Authentication:** JWT (JSON Web Tokens)
-- **Deployment:** Docker & Docker Compose
+- **Database:** PostgreSQL (ย้ายจาก MySQL)
+- **ORM:** Prisma
+- **Framework:** Express.js / Node.js
+- **Auth:** JWT
 
 ---
 
@@ -89,43 +88,26 @@
 
 ```bash
 src/
-├── assets/           # ทรัพยากรคงที่
+├── assets/           # ทรัพยากรไฟล์ภาพและไอคอน
 ├── components/       # UI Components
-│   ├── AlertPopup/   # คอมโพเนนต์แจ้งเตือน
-│   ├── board/        # เลย์เอาต์บอร์ดหลัก, Header, Logic
-│   ├── column/       # คอมโพเนนต์คอลัมน์ (TaskColumn, AddColumnButton, ColumnForm)
-│   ├── dialog/       # กล่องโต้ตอบยืนยัน
-│   ├── TaskCard/     # คอมโพเนนต์การ์ดงานที่ลากได้
-│   ├── TaskList/     # คอนเทนเนอร์รายการงาน (พื้นที่วางได้)
-│   ├── TaskModal/    # ฟอร์มโมดัลสร้าง/แก้ไขงาน
-│   ├── ui/           # องค์ประกอบ UI ที่ใช้ซ้ำได้ (ปุ่ม, อินพุต, ฯลฯ)
-│   └── Navbar.tsx    # แถบนำทางด้านบนพร้อมออกจากระบบ
-├── contexts/         # React Context Providers
-│   ├── AuthContext.tsx      # การจัดการสถานะการยืนยันตัวตน
-│   ├── TaskContext.tsx      # การดำเนินการ CRUD ของงาน
-│   ├── ColumnContext.tsx    # การดำเนินการ CRUD ของคอลัมน์
-│   ├── ThemeContext.tsx     # โหมดมืด/สว่าง
-│   ├── LanguageContext.tsx  # i18n (อังกฤษ/ไทย)
-│   └── AlertContext.tsx     # การแจ้งเตือนทั่วไป
-├── hooks/            # Custom Hooks (การแยกตรรกะ)
-│   ├── useBoardDrag.ts      # ตรรกะการลากและวาง
-│   ├── useTaskModal.ts      # สถานะโมดัลงาน
-│   ├── useColumnForm.ts     # ตรรกะฟอร์มคอลัมน์
-│   └── useKanban.ts         # ตรรกะบอร์ด Kanban
-├── pages/            # คอมโพเนนต์หน้า
-│   ├── SignIn.tsx           # หน้าเข้าสู่ระบบ
-│   ├── SignUp.tsx           # หน้าลงทะเบียน
-│   ├── KanbanBoard.tsx      # หน้าบอร์ดหลัก
-│   └── AppLayout.tsx        # Layout wrapper
-├── routes/           # การป้องกันเส้นทาง
-│   └── ProtectedRoute.tsx   # Auth guard
-├── services/         # ชั้น API service
-│   └── api.ts               # Axios instance with interceptors
-├── utils/            # ฟังก์ชันช่วยเหลือ
-│   ├── i18n.ts              # คำจำกัดความการแปล
-│   ├── formatters.ts        # ตัวจัดรูปแบบข้อมูล
-│   └── storage.ts           # คำจำกัดความประเภท
-└── App.tsx           # จุดเข้าแอปพลิเคชันหลักพร้อมการกำหนดเส้นทาง
+│   ├── AlertPopup/   # ระบบแจ้งเตือน (Toast Notification)
+│   ├── board/        # เลย์เอาต์บอร์ด Kanban และ Logic หัวตาราง
+│   ├── column/       # คอมโพเนนต์คอลัมน์และการจัดการคอลัมน์
+│   ├── dialog/       # กล่องโต้ตอบยืนยัน (Confirm Dialog)
+│   ├── TaskCard/     # การ์ดงาน (Draggable)
+│   ├── TaskList/     # รายการงานในแต่ละคอลัมน์ (Droppable)
+│   ├── TaskModal/    # ฟอร์มสร้าง/แก้ไขงาน
+│   ├── ui/           # คอมโพเนนต์พื้นฐาน (Button, Input, LoadingScreen)
+│   └── AppLayout.tsx # โครงสร้างหลักของแอป
+├── contexts/         # React Context Providers (Global State)
+├── hooks/            # Custom Hooks (Business Logic)
+├── pages/            # หน้าหลัก (SignIn, SignUp, KanbanBoard, Profile, NotFound)
+├── routes/           # การจัดการ Route และ ProtectedRoute
+├── services/         # API Service และ Axios Interceptors
+├── theme/            # การตั้งค่าธีม
+├── utils/            # ฟังก์ชันช่วยเหลือ (i18n, formatting)
+├── App.tsx           # Main App Component
+└── main.tsx          # Entry Point
 ```
 
 ---
@@ -139,166 +121,38 @@ src/
 
 ### การติดตั้ง
 
-#### 1. โคลน repository
-```bash
-git clone https://github.com/phraewchuthamat/task-board-react.git
-cd task-board-react
-```
+1. **โคลน repository**
+   ```bash
+   git clone https://github.com/phraewchuthamat/task-board-react.git
+   cd task-board-react
+   ```
 
-#### 2. ติดตั้ง dependencies
-```bash
-npm install
-```
+2. **ติดตั้ง dependencies**
+   ```bash
+   npm install
+   ```
 
-#### 3. สร้างไฟล์ environment
-```bash
-# สร้างไฟล์ .env ในไดเรกทอรีหลัก
-cat > .env << EOF
-VITE_API_URL=http://localhost:4000
-EOF
-```
+3. **สร้างไฟล์ environment**
+   สร้างไฟล์ `.env` ในไดเรกทอรีหลัก:
+   ```bash
+   VITE_API_BASE_URL=https://task-board-api-bu5l.onrender.com
+   ```
+   > หรือ URL ของ Backend ที่คุณรันเองในเครื่อง (เช่น `http://localhost:4000`)
 
-> **หมายเหตุ:** อย่าลืมอัปเดต `VITE_API_URL` ให้ตรงกับ URL ของ backend API ของคุณ
-
-#### 4. เริ่มเซิร์ฟเวอร์พัฒนา
-```bash
-npm run dev
-```
-
-แอปพลิเคชันจะพร้อมใช้งานที่ `http://localhost:5173` (หรือพอร์ตถัดไปที่ว่าง)
+4. **เริ่มเซิร์ฟเวอร์พัฒนา**
+   ```bash
+   npm run dev
+   ```
 
 ---
 
-## 📜 คำสั่งที่ใช้ได้
+## ☁️ Deployment Details
 
-```bash
-# เริ่มเซิร์ฟเวอร์พัฒนา
-npm run dev
-
-# สร้างสำหรับ production
-npm run build
-
-# ดูตัวอย่าง production build
-npm run preview
-
-# ตรวจสอบโค้ด
-npm run lint
-
-# จัดรูปแบบโค้ด
-npm run format
-```
-
----
-
-## 🔧 การตั้งค่า Backend
-
-Frontend นี้ต้องการ backend API ที่กำลังทำงาน โปรดทำตามคำแนะนำการตั้งค่าใน [task-board-api](https://github.com/phraewchuthamat/task-board-api) repository
-
-**การตั้งค่า Backend แบบรวดเร็ว:**
-```bash
-# โคลน backend repository
-git clone https://github.com/phraewchuthamat/task-board-api.git
-cd task-board-api
-
-# ทำตามคำแนะนำการตั้งค่าใน backend README
-# Backend จะทำงานที่ http://localhost:4000 โดยค่าเริ่มต้น
-```
-
----
-
-## 🔌 การรวม API
-
-Frontend สื่อสารกับ backend API โดยใช้ Axios การเรียก API ทั้งหมดจัดการผ่านไฟล์ `src/services/api.ts`
-
-### ขั้นตอนการยืนยันตัวตน
-1. ผู้ใช้เข้าสู่ระบบผ่าน `/auth/login`
-2. Backend ส่งคืน `accessToken` และ `refreshToken`
-3. โทเค็นถูกเก็บใน `localStorage`
-4. Axios interceptor เพิ่ม header `Authorization` ให้กับคำขอทั้งหมดโดยอัตโนมัติ
-5. หากโทเค็นหมดอายุ interceptor จะรีเฟรชโดยอัตโนมัติ
-
-### เส้นทางที่ได้รับการป้องกัน
-- `/dashboard` - บอร์ด Kanban หลัก (ต้องการการยืนยันตัวตน)
-- `/login` - หน้าเข้าสู่ระบบ (สาธารณะ)
-- `/register` - หน้าลงทะเบียน (สาธารณะ)
-
----
-
-## 🎨 การปรับแต่ง
-
-### ธีม
-- แก้ไข `src/contexts/ThemeContext.tsx` สำหรับตรรกะธีม
-- อัปเดตการกำหนดค่า Tailwind ใน `tailwind.config.js` สำหรับสี
-
-### ภาษา
-- เพิ่มการแปลใหม่ใน `src/utils/i18n.ts`
-- รองรับภาษาอังกฤษและไทยโดยค่าเริ่มต้น
-
-### การจัดรูปแบบ
-- คอมโพเนนต์ทั้งหมดใช้ Tailwind CSS
-- สไตล์ที่กำหนดเองในไฟล์คอมโพเนนต์
-- สไตล์ทั่วไปใน `src/index.css`
-
----
-
-## 🐛 การแก้ไขปัญหา
-
-### ข้อผิดพลาด 403 Forbidden
-- ตรวจสอบว่าคุณเข้าสู่ระบบแล้ว
-- ตรวจสอบว่า `accessToken` มีอยู่ใน localStorage (DevTools → Application → Local Storage)
-- ลองออกจากระบบและเข้าสู่ระบบอีกครั้ง
-- ตรวจสอบว่า backend กำลังทำงานและเข้าถึงได้
-
-### ข้อผิดพลาด CORS
-- ตรวจสอบว่า backend กำลังทำงานบนพอร์ตที่ถูกต้อง (ค่าเริ่มต้น: 4000)
-- ตรวจสอบการกำหนดค่า CORS ของ backend อนุญาตต้นทางของ frontend ของคุณ
-- อัปเดต `VITE_API_URL` ใน `.env` หากพอร์ต backend แตกต่างกัน
-
-### พอร์ตถูกใช้งานอยู่แล้ว
-```bash
-# Vite จะใช้พอร์ตถัดไปที่ว่างโดยอัตโนมัติ
-# ตรวจสอบเอาต์พุตเทอร์มินัลสำหรับหมายเลขพอร์ตจริง
-```
-
-### ข้อผิดพลาดในการสร้าง
-```bash
-# ล้าง node_modules และติดตั้งใหม่
-rm -rf node_modules package-lock.json
-npm install
-
-# ล้างแคช Vite
-rm -rf .vite
-```
-
----
-
-## 🚢 การ Deploy
-
-### สร้างสำหรับ Production
-```bash
-npm run build
-```
-
-สิ่งนี้จะสร้าง production build ที่ปรับให้เหมาะสมในโฟลเดอร์ `dist/`
-
-### Deploy ไปยัง GitHub Pages
-```bash
-# ติดตั้ง gh-pages
-npm install --save-dev gh-pages
-
-# เพิ่มใน package.json scripts:
-"predeploy": "npm run build",
-"deploy": "gh-pages -d dist"
-
-# Deploy
-npm run deploy
-```
-
-### Deploy ไปยัง Vercel/Netlify
-1. เชื่อมต่อ GitHub repository ของคุณ
-2. ตั้งค่าคำสั่งสร้าง: `npm run build`
-3. ตั้งค่าไดเรกทอรีเอาต์พุต: `dist`
-4. เพิ่มตัวแปรสภาพแวดล้อม: `VITE_API_URL=<your-backend-url>`
+**Current Production Build:**
+- **URL:** [https://task-board-react-ivory.vercel.app](https://task-board-react-ivory.vercel.app/login)
+- **Platform:** Vercel
+- **Status:** ✅ Live
+- **Backend:** PostgreSQL on Render (Free Tier)
 
 ---
 
@@ -312,5 +166,3 @@ npm run deploy
 ## 📄 License
 
 This project is licensed under the ISC License.
-
-Created by [phraewchuthamat](https://github.com/phraewchuthamat)
