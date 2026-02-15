@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
+
 import api from '../services/api'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 import { useAlert } from '../contexts/AlertContext'
 import { useLanguage } from '../contexts/LanguageContext'
-import Logo from '../assets/Logo'
+import Logo from '../Logo'
 import PasswordToggleIcon from '../components/ui/PasswordToggleIcon'
 
 export default function SignUp() {
@@ -16,7 +16,7 @@ export default function SignUp() {
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
     const [showPassword, setShowPassword] = useState(false)
 
-    const { login } = useAuth()
+
     const navigate = useNavigate()
     const { setAlert } = useAlert()
     const { trans } = useLanguage()
@@ -28,12 +28,12 @@ export default function SignUp() {
         setPasswordError(false)
 
         const data = new FormData(event.currentTarget)
-        const username = data.get('username') as string
+        const username = (data.get('username') as string).trim().toLowerCase()
         const password = data.get('password') as string
 
         let isValid = true
 
-        if (!username || username.trim().length === 0) {
+        if (!username || username.length === 0) {
             setUsernameError(true)
             setUsernameErrorMessage('Please enter a username.')
             isValid = false
@@ -52,9 +52,7 @@ export default function SignUp() {
         if (!isValid) return
 
         try {
-            const res = await api.post('/auth/register', { username, password })
-
-            login(res.data.accessToken, res.data.user)
+            await api.post('/auth/register', { username, password })
 
             navigate('/login')
             setAlert(`${trans('register')}`, 'success')
@@ -63,7 +61,7 @@ export default function SignUp() {
             const backendMsg =
                 error.response?.data?.message ||
                 'Registration failed. Please try again.'
-            alert(backendMsg)
+            setAlert(backendMsg, 'error')
         }
     }
 

@@ -6,7 +6,7 @@ import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
 import { useAlert } from '../contexts/AlertContext'
 import { useLanguage } from '../contexts/LanguageContext'
-import Logo from '../assets/Logo'
+import Logo from '../Logo'
 import PasswordToggleIcon from '../components/ui/PasswordToggleIcon'
 
 export default function SignIn() {
@@ -28,12 +28,12 @@ export default function SignIn() {
         setPasswordError(false)
 
         const data = new FormData(event.currentTarget)
-        const username = data.get('username') as string
+        const username = (data.get('username') as string).trim().toLowerCase()
         const password = data.get('password') as string
 
         let isValid = true
 
-        if (!username || username.trim().length === 0) {
+        if (!username || username.length === 0) {
             setUsernameError(true)
             setUsernameErrorMessage('Please enter your username.')
             isValid = false
@@ -59,7 +59,7 @@ export default function SignIn() {
             const backendMsg =
                 error.response?.data?.message ||
                 'Login failed. Please check your credentials.'
-            alert(backendMsg)
+            setAlert(backendMsg, 'error')
         }
     }
 

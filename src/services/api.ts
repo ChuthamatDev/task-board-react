@@ -29,10 +29,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-        if (error.response?.status === 401) {
+
+        if (error.response?.status === 401 && !error.config.url.endsWith('/auth/login')) {
             localStorage.clear()
             window.location.href = '/login'
-            return Promise.reject(error)
         }
         return Promise.reject(error)
     }

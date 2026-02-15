@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import ThemeToggleButton from './ui/ThemeToggleButton'
 import LanguageSwitcher from './ui/LanguageSwitcher'
-import Logo from '../assets/Logo'
+import Logo from '../Logo'
 import { useNavbar } from '../hooks/useNavbar'
 
 export default function Navbar() {

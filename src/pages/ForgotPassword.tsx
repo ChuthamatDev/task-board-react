@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Logo from '../assets/Logo'
+import Logo from '../Logo'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import { useAlert } from '../contexts/AlertContext'
