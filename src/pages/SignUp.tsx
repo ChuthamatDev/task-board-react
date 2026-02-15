@@ -19,6 +19,7 @@ export default function SignUp() {
     const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
     const { setAlert } = useAlert()
@@ -61,6 +62,8 @@ export default function SignUp() {
 
         if (!isValid) return
 
+        setIsLoading(true)
+
         try {
             await api.post('/auth/register', { username, password })
 
@@ -72,6 +75,8 @@ export default function SignUp() {
                 error.response?.data?.message ||
                 'Registration failed. Please try again.'
             setAlert(backendMsg, 'error')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -214,7 +219,12 @@ export default function SignUp() {
                                 </div>
                             </div>
 
-                            <Button type="submit" className="w-full">
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                loading={isLoading}
+                                loadingText="Signing up..."
+                            >
                                 Sign up
                             </Button>
 

@@ -15,6 +15,7 @@ export default function SignIn() {
     const [passwordError, setPasswordError] = useState(false)
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const { login } = useAuth()
     const navigate = useNavigate()
@@ -26,6 +27,7 @@ export default function SignIn() {
 
         setUsernameError(false)
         setPasswordError(false)
+        setIsLoading(false)
 
         const data = new FormData(event.currentTarget)
         const username = (data.get('username') as string).trim().toLowerCase()
@@ -51,6 +53,8 @@ export default function SignIn() {
 
         if (!isValid) return
 
+        setIsLoading(true)
+
         try {
             const res = await api.post('/auth/login', { username, password })
             login(res.data.accessToken, res.data.user)
@@ -59,10 +63,31 @@ export default function SignIn() {
             setAlert(`${trans('login')}`, 'success')
         } catch (error: any) {
             console.error(error)
+            const status = error.response?.status
             const backendMsg =
                 error.response?.data?.message ||
                 'Login failed. Please check your credentials.'
+
+            // แสดง inline error ตาม response จาก backend
+            if (status === 401 || status === 403) {
+                // รหัสผ่านผิด หรือ credentials ไม่ถูกต้อง
+                setPasswordError(true)
+                setPasswordErrorMessage(backendMsg)
+                setUsernameError(true)
+                setUsernameErrorMessage('')
+            } else if (status === 404) {
+                // ไม่พบ username ในระบบ
+                setUsernameError(true)
+                setUsernameErrorMessage(backendMsg)
+            } else {
+                // error อื่นๆ (500, network error)
+                setPasswordError(true)
+                setPasswordErrorMessage(backendMsg)
+            }
+
             setAlert(backendMsg, 'error')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -176,7 +201,12 @@ export default function SignIn() {
                                 </Link>
                             </div>
 
-                            <Button type="submit" className="w-full">
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                loading={isLoading}
+                                loadingText="Signing in..."
+                            >
                                 Sign in
                             </Button>
 
