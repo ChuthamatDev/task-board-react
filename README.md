@@ -10,6 +10,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![Vite](https://img.shields.io/badge/Vite-Fast-646CFF?style=for-the-badge&logo=vite)
+![Playwright](https://img.shields.io/badge/Playwright-Tested-2EAD33?style=for-the-badge&logo=playwright)
 ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)
 
 ---
@@ -68,10 +69,11 @@
 - **Styling:** Tailwind CSS 4, Headless UI, MUI Material
 - **Forms:** React Hook Form
 - **Drag & Drop:** @dnd-kit (Core, Sortable, Utilities)
-- **Animation:** Framer Motion, React Animations
+- **Animation:** Framer Motion
 - **HTTP Client:** Axios
 - **Routing:** React Router v6
 - **Icons:** Heroicons
+- **Testing:** Playwright (E2E)
 - **Tools:** ESLint, Prettier
 
 ### Backend
@@ -108,7 +110,63 @@ src/
 ├── utils/            # ฟังก์ชันช่วยเหลือ (i18n, formatting)
 ├── App.tsx           # Main App Component
 └── main.tsx          # Entry Point
+
+tests/
+├── auth.spec.ts      # ทดสอบระบบ Authentication (11 tests)
+└── kanban.spec.ts    # ทดสอบระบบ Kanban Board (5 tests)
 ```
+
+---
+
+## 🧪 Testing (E2E)
+
+ทดสอบระบบแบบ End-to-End ด้วย **Playwright** ครอบคลุมฟีเจอร์หลักทั้งหมด บันทึกวิดีโอ Full HD (1920×1080) ทุกครั้งที่รัน
+
+### 📋 Test Cases (16 tests)
+
+#### Authentication (`auth.spec.ts`)
+
+| กลุ่ม | Test Case | สิ่งที่ทดสอบ |
+|---|---|---|
+| **Register** | ✅ สมัครสมาชิกสำเร็จ | กรอกข้อมูล → redirect ไปหน้า Login |
+| | ✅ Username สั้นเกินไป | Username < 3 ตัวอักษร → แสดง error |
+| | ✅ Password สั้นเกินไป | Password < 6 ตัวอักษร → แสดง error |
+| | ✅ Password ไม่ตรงกัน | Confirm password ผิด → แสดง error |
+| **Login** | ✅ เข้าสู่ระบบสำเร็จ | Register → Login → เข้า Dashboard + Navbar |
+| | ✅ Username สั้นเกินไป | Username < 3 ตัวอักษร → แสดง error |
+| | ✅ Password สั้นเกินไป | Password < 6 ตัวอักษร → แสดง error |
+| **Protected Route** | ✅ Redirect ถ้าไม่ login | เข้า `/dashboard` → ถูก redirect ไป `/login` |
+| **Navigation** | ✅ Login ↔ Register | ลิงก์ระหว่างหน้าทำงานถูกต้อง |
+| | ✅ Register → Login | ลิงก์กลับหน้า Login ทำงานถูกต้อง |
+| | ✅ Forgot Password | ลิงก์ไปหน้า Reset Password ทำงานถูกต้อง |
+
+#### Kanban Board (`kanban.spec.ts`)
+
+| กลุ่ม | Test Case | สิ่งที่ทดสอบ |
+|---|---|---|
+| **Column** | ✅ สร้าง Column สำเร็จ | กรอกชื่อ + เลือกสี → Column ปรากฏ |
+| | ✅ ชื่อว่างไม่ได้ | กด Save โดยไม่กรอกชื่อ → แสดง error |
+| **Task** | ✅ สร้าง Task ใน Column แรก | Task ใหม่ปรากฏใน Column แรกเสมอ |
+| | ✅ Task อยู่ Column แรกเสมอ | มี 2 Column → Task ใหม่อยู่ Column แรก |
+| **Drag & Drop** | ✅ ลาก Task ข้าม Column | ลาก Task จาก Column 1 → Column 2 สำเร็จ |
+
+### 🚀 วิธีรันเทสต์
+
+```bash
+# ติดตั้ง Playwright browsers (ครั้งแรก)
+npx playwright install
+
+# รันเทสต์พร้อม UI (แนะนำ)
+npx playwright test --ui
+
+# รันเทสต์ผ่าน CLI
+npx playwright test --project=chromium
+
+# ดูรายงานผลเทสต์
+npx playwright show-report
+```
+
+> **หมายเหตุ:** ต้องเปิด dev server (`npm run dev`) ก่อนรันเทสต์
 
 ---
 
