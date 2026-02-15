@@ -11,6 +11,7 @@ const ColumnContainer = forwardRef<HTMLDivElement, ColumnContainerProps>(
         return (
             <div
                 ref={ref}
+                data-testid="task-column"
                 className={clsx(
                     'flex flex-col w-80 shrink-0',
                     'bg-app-column',

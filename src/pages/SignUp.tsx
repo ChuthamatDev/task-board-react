@@ -14,8 +14,11 @@ export default function SignUp() {
     const [usernameErrorMessage, setUsernameErrorMessage] = useState('')
     const [passwordError, setPasswordError] = useState(false)
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false)
+    const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState('')
     const [showPassword, setShowPassword] = useState(false)
-
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const navigate = useNavigate()
     const { setAlert } = useAlert()
@@ -26,6 +29,7 @@ export default function SignUp() {
 
         setUsernameError(false)
         setPasswordError(false)
+        setConfirmPasswordError(false)
 
         const data = new FormData(event.currentTarget)
         const username = (data.get('username') as string).trim().toLowerCase()
@@ -46,6 +50,12 @@ export default function SignUp() {
         if (!password || password.length < 6) {
             setPasswordError(true)
             setPasswordErrorMessage('Password must be at least 6 characters.')
+            isValid = false
+        }
+
+        if (password !== confirmPassword) {
+            setConfirmPasswordError(true)
+            setConfirmPasswordErrorMessage('Passwords do not match.')
             isValid = false
         }
 
@@ -92,6 +102,7 @@ export default function SignUp() {
                                     type="text"
                                     name="username"
                                     id="username"
+                                    data-testid="login-username-input"
                                     placeholder="Enter your username"
                                     required
                                     className={
@@ -118,6 +129,7 @@ export default function SignUp() {
                                     type={showPassword ? 'text' : 'password'}
                                     name="password"
                                     id="password"
+                                    data-testid="signup-password-input"
                                     placeholder="••••••••"
                                     required
                                     className={
@@ -137,6 +149,42 @@ export default function SignUp() {
                                     className="absolute right-4 top-12 -translate-y-1/2 flex items-center cursor-pointer text-gray-500 hover:text-gray-700 focus:outline-none"
                                 >
                                     <PasswordToggleIcon isVisible={showPassword} />
+                                </button>
+                            </div>
+
+                            <div className="relative">
+                                <label
+                                    htmlFor="confirmPassword"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                    Confirm Password
+                                </label>
+                                <Input
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    name="confirmPassword"
+                                    id="confirmPassword"
+                                    data-testid="signup-confirm-password-input"
+                                    placeholder="••••••••"
+                                    required
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className={
+                                        confirmPasswordError
+                                            ? 'border-red-500 focus:ring-red-500 pr-10'
+                                            : 'pr-10'
+                                    }
+                                />
+                                <p className={`mt-1 text-xs min-h-[1.25rem] ${confirmPasswordError ? 'text-red-500' : 'invisible'}`}>
+                                    {confirmPasswordError ? confirmPasswordErrorMessage : 'placeholder'}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setShowConfirmPassword(!showConfirmPassword)
+                                    }
+                                    className="absolute right-4 top-12 -translate-y-1/2 flex items-center cursor-pointer text-gray-500 hover:text-gray-700 focus:outline-none"
+                                >
+                                    <PasswordToggleIcon isVisible={showConfirmPassword} />
                                 </button>
                             </div>
 

@@ -1,7 +1,15 @@
-import { useState } from 'react'
-import { DragStartEvent, DragOverEvent, DragEndEvent } from '@dnd-kit/core'
+import { useState, useCallback } from 'react'
+import {
+    DragStartEvent,
+    DragOverEvent,
+    DragEndEvent,
+} from '@dnd-kit/core'
 import { Task, Column } from '../utils/types'
 
+/**
+ * คำนวณ position ใหม่ที่สอดแทรกเข้าไปใน list ของ tasks
+ * ใช้ midpoint ระหว่าง task ก่อนหน้าและ task ถัดไป
+ */
 const calculateNewPosition = (tasks: Task[], newIndex: number): number => {
     if (tasks.length === 0) return 1000
     if (newIndex === 0) return tasks[0].position / 2
@@ -26,84 +34,155 @@ export function useBoardDrag(
 ) {
     const [activeTask, setActiveTask] = useState<Task | null>(null)
 
-    const onDragStart = (event: DragStartEvent) => {
-        const { active } = event
-        const task = taskItems.find((t) => t.id === active.id)
-        setActiveTask(task || null)
-    }
+    // ─── Drag Start ───────────────────────────
+    const onDragStart = useCallback(
+        (event: DragStartEvent) => {
+            const task = taskItems.find((t) => t.id === event.active.id)
+            setActiveTask(task || null)
+        },
+        [taskItems]
+    )
 
-    const onDragOver = (event: DragOverEvent) => {
-        const { active, over } = event
-        if (!over) return
+    // ─── Drag Over ────────────────────────────
+    // ให้ feedback ทันทีขณะลากข้ามคอลัมน์
+    const onDragOver = useCallback(
+        (event: DragOverEvent) => {
+            const { active, over } = event
+            if (!over) return
 
-        const activeId = active.id
-        const overId = over.id
+            const activeId = String(active.id)
+            const overId = String(over.id)
 
-        if (activeId === overId) return
+            if (activeId === overId) return
 
-        const isActiveTask = active.data.current?.type === 'Task'
-        const isOverTask = over.data.current?.type === 'Task'
+            const activeTaskItem = taskItems.find((t) => t.id === activeId)
+            if (!activeTaskItem) return
 
-        if (!isActiveTask || !isOverTask) return
-    }
+            // กรณีที่ 1: ลากไปวางทับ Task อื่นที่อยู่คนละ Column
+            const isOverTask = over.data.current?.type === 'Task'
+            if (isOverTask) {
+                const overTask = taskItems.find((t) => t.id === overId)
+                if (overTask && activeTaskItem.columnId !== overTask.columnId) {
+                    // Optimistic update — เปลี่ยน columnId ทันทีขณะลาก
+                    const tasksInNewColumn = taskItems
+                        .filter(
+                            (t) =>
+                                t.columnId === overTask.columnId &&
+                                t.id !== activeId
+                        )
+                        .sort((a, b) => a.position - b.position)
 
-    const onDragEnd = (event: DragEndEvent) => {
-        const { active, over } = event
-        setActiveTask(null)
+                    const overIndex = tasksInNewColumn.findIndex(
+                        (t) => t.id === overId
+                    )
+                    const insertIndex =
+                        overIndex >= 0 ? overIndex : tasksInNewColumn.length
 
-        if (!over) return
+                    const newPosition = calculateNewPosition(
+                        tasksInNewColumn,
+                        insertIndex
+                    )
 
-        const activeId = String(active.id)
-        const overId = String(over.id)
+                    updateTaskPosition(activeId, overTask.columnId, newPosition)
+                }
+                return
+            }
 
-        const currentTask = taskItems.find((t) => t.id === activeId)
-        if (!currentTask) return
+            // กรณีที่ 2: ลากไปวางบน Column ว่างๆ (useDroppable ของ Column)
+            const isOverColumn = columns.some((col) => col.id === overId)
+            if (isOverColumn && activeTaskItem.columnId !== overId) {
+                const tasksInNewColumn = taskItems
+                    .filter(
+                        (t) => t.columnId === overId && t.id !== activeId
+                    )
+                    .sort((a, b) => a.position - b.position)
 
-        let targetColumnId = currentTask.columnId
-        let newIndex = 0
+                const newPosition = calculateNewPosition(
+                    tasksInNewColumn,
+                    tasksInNewColumn.length
+                )
 
-        const isOverColumn = columns.some((col) => col.id === overId)
+                updateTaskPosition(activeId, overId, newPosition)
+            }
+        },
+        [taskItems, columns, updateTaskPosition]
+    )
 
-        if (isOverColumn) {
-            targetColumnId = overId
-            newIndex = 0
-        } else {
-            const overTask = taskItems.find((t) => t.id === overId)
-            if (overTask) {
-                targetColumnId = overTask.columnId
+    // ─── Drag End ─────────────────────────────
+    const onDragEnd = useCallback(
+        (event: DragEndEvent) => {
+            const { active, over } = event
+            setActiveTask(null)
+
+            if (!over) return
+
+            const activeId = String(active.id)
+            const overId = String(over.id)
+
+            if (activeId === overId) return
+
+            const currentTask = taskItems.find((t) => t.id === activeId)
+            if (!currentTask) return
+
+            let targetColumnId = currentTask.columnId
+            let newIndex = 0
+
+            const isOverColumn = columns.some((col) => col.id === overId)
+
+            if (isOverColumn) {
+                targetColumnId = overId
                 const tasksInColumn = taskItems
                     .filter(
                         (t) =>
                             t.columnId === targetColumnId && t.id !== activeId
                     )
                     .sort((a, b) => a.position - b.position)
+                newIndex = tasksInColumn.length
+            } else {
+                const overTask = taskItems.find((t) => t.id === overId)
+                if (overTask) {
+                    targetColumnId = overTask.columnId
+                    const tasksInColumn = taskItems
+                        .filter(
+                            (t) =>
+                                t.columnId === targetColumnId &&
+                                t.id !== activeId
+                        )
+                        .sort((a, b) => a.position - b.position)
 
-                const overTaskIndex = tasksInColumn.findIndex(
-                    (t) => t.id === overId
-                )
+                    const overTaskIndex = tasksInColumn.findIndex(
+                        (t) => t.id === overId
+                    )
 
-                newIndex =
-                    overTaskIndex >= 0 ? overTaskIndex : tasksInColumn.length
+                    newIndex =
+                        overTaskIndex >= 0
+                            ? overTaskIndex
+                            : tasksInColumn.length
+                }
             }
-        }
 
-        const targetTasks = taskItems
-            .filter((t) => t.columnId === targetColumnId && t.id !== activeId)
-            .sort((a, b) => a.position - b.position)
+            const targetTasks = taskItems
+                .filter(
+                    (t) => t.columnId === targetColumnId && t.id !== activeId
+                )
+                .sort((a, b) => a.position - b.position)
 
-        const newPosition = calculateNewPosition(targetTasks, newIndex)
+            const newPosition = calculateNewPosition(targetTasks, newIndex)
 
-        if (
-            currentTask.position !== newPosition ||
-            currentTask.columnId !== targetColumnId
-        ) {
-            updateTaskPosition(activeId, targetColumnId, newPosition)
-        }
-    }
+            if (
+                currentTask.position !== newPosition ||
+                currentTask.columnId !== targetColumnId
+            ) {
+                updateTaskPosition(activeId, targetColumnId, newPosition)
+            }
+        },
+        [taskItems, columns, updateTaskPosition]
+    )
 
-    const onDragCancel = () => {
+    // ─── Drag Cancel ──────────────────────────
+    const onDragCancel = useCallback(() => {
         setActiveTask(null)
-    }
+    }, [])
 
     return {
         activeTask,

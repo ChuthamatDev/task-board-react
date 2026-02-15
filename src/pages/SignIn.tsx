@@ -37,6 +37,10 @@ export default function SignIn() {
             setUsernameError(true)
             setUsernameErrorMessage('Please enter your username.')
             isValid = false
+        } else if (username.length < 3) {
+            setUsernameError(true)
+            setUsernameErrorMessage('Username must be at least 3 characters.')
+            isValid = false
         }
 
         if (!password || password.length < 6) {
@@ -49,7 +53,6 @@ export default function SignIn() {
 
         try {
             const res = await api.post('/auth/login', { username, password })
-            console.log('Login Response:', res.data)
             login(res.data.accessToken, res.data.user)
 
             navigate('/dashboard')
@@ -90,6 +93,7 @@ export default function SignIn() {
                                     type="text"
                                     name="username"
                                     id="username"
+                                    data-testid="login-username-input"
                                     placeholder="Enter your username"
                                     required
                                     className={
@@ -117,6 +121,7 @@ export default function SignIn() {
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
+                                    data-testid="login-password-input"
                                     required
                                     className={
                                         passwordError
@@ -124,8 +129,12 @@ export default function SignIn() {
                                             : 'pr-10'
                                     }
                                 />
-                                <p className={`mt-1 text-xs min-h-[1.25rem] ${passwordError ? 'text-red-500' : 'invisible'}`}>
-                                    {passwordError ? passwordErrorMessage : 'placeholder'}
+                                <p
+                                    className={`mt-1 text-xs min-h-[1.25rem] ${passwordError ? 'text-red-500' : 'invisible'}`}
+                                >
+                                    {passwordError
+                                        ? passwordErrorMessage
+                                        : 'placeholder'}
                                 </p>
                                 <button
                                     type="button"
@@ -134,7 +143,9 @@ export default function SignIn() {
                                     }
                                     className="absolute right-4 top-12 -translate-y-1/2 flex items-center cursor-pointer text-gray-500 hover:text-gray-700 focus:outline-none"
                                 >
-                                    <PasswordToggleIcon isVisible={showPassword} />
+                                    <PasswordToggleIcon
+                                        isVisible={showPassword}
+                                    />
                                 </button>
                             </div>
 

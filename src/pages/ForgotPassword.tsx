@@ -62,6 +62,7 @@ export default function ForgotPassword() {
                                     name="username"
                                     type="text"
                                     autoComplete="username"
+                                    data-testid="login-username-input"
                                     required
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}

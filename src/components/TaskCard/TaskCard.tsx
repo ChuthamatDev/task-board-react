@@ -49,6 +49,7 @@ function TaskCard({
             style={style}
             {...attributes}
             {...listeners}
+            data-testid="task-card"
             className={clsx(
                 'relative rounded-lg p-3',
                 'touch-none cursor-grab active:cursor-grabbing',
@@ -65,7 +66,7 @@ function TaskCard({
         >
             <TaskCardActions task={task} onEdit={onEdit} onDelete={onDelete} />
 
-            <h3 className="font-semibold text-sm mb-0.5 pr-12 text-app-text">
+            <h3 data-testid="task-title" className="font-semibold text-sm mb-0.5 pr-12 text-app-text">
                 {task.title}
             </h3>
 

@@ -111,6 +111,7 @@ export default function ResetPassword() {
                                     onChange={(e) => setNewPassword(e.target.value)}
                                     className={newPasswordError ? 'border-red-500 focus:ring-red-500 pr-10' : 'pr-10'}
                                     placeholder="Enter new password"
+                                    data-testid="reset-new-password"
                                     autoFocus
                                 />
                                 <p className={`mt-1 text-xs min-h-[1.25rem] ${newPasswordError ? 'text-red-500' : 'invisible'}`}>
@@ -136,6 +137,7 @@ export default function ResetPassword() {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     className={confirmPasswordError ? 'border-red-500 focus:ring-red-500 pr-10' : 'pr-10'}
                                     placeholder="Confirm new password"
+                                    data-testid="reset-confirm-password"
                                 />
                                 <p className={`mt-1 text-xs min-h-[1.25rem] ${confirmPasswordError ? 'text-red-500' : 'invisible'}`}>
                                     {confirmPasswordError ? confirmPasswordErrorMessage : 'placeholder'}
