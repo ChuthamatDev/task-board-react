@@ -39,7 +39,14 @@ export default function TaskProvider({ children }: { children: ReactNode }) {
         setIsLoading(true)
         try {
             const res = await api.get('/tasks')
-            setTasks(res.data?.data || [])
+            const fetchedTasks: Task[] = res.data?.data || []
+            setTasks(fetchedTasks)
+
+            const taskCountMap: Record<string, number> = {}
+            fetchedTasks.forEach((t) => {
+                taskCountMap[t.columnId] = (taskCountMap[t.columnId] || 0) + 1
+            })
+            localStorage.setItem('taskCountPerColumn', JSON.stringify(taskCountMap))
         } catch (error) {
             setAlert('Failed to fetch tasks', 'error')
             setTasks([])
