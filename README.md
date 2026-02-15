@@ -15,6 +15,20 @@
 
 ---
 
+## 📸 Preview
+
+### 🌙 Dark Mode
+| Login | Dashboard |
+|:---:|:---:|
+| ![Login Dark](public/login_drakmode.png) | ![Dashboard Dark](public/dashboard_drak.png) |
+
+### ☀️ Light Mode
+| Login | Dashboard |
+|:---:|:---:|
+| ![Login Light](public/login_lightmode.png) | ![Dashboard Light](public/dashboard_light.png) |
+
+---
+
 ## ✨ ฟีเจอร์หลัก
 
 ### 🎯 ฟังก์ชันหลัก

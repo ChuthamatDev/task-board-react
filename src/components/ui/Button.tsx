@@ -153,14 +153,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                     ))}
                 </AnimatePresence>
 
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                     {loading ? (
                         <motion.span
                             key="loading"
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -8 }}
-                            transition={{ duration: 0.2 }}
+                            transition={{ duration: 0.15 }}
                             className="inline-flex items-center gap-2"
                         >
                             <Spinner size={size === 'sm' ? 14 : 16} />
@@ -175,7 +175,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                             initial={{ opacity: 0, y: -8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 8 }}
-                            transition={{ duration: 0.2 }}
+                            transition={{ duration: 0.15 }}
                             className="inline-flex items-center gap-2"
                         >
                             {children}
