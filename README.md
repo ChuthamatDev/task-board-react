@@ -1,10 +1,10 @@
-# Modern Kanban Board - Frontend 🚀
+# Modern Kanban Board - Frontend 
 
 แอปพลิเคชันจัดการงานสไตล์ Jira ที่สร้างด้วย **React** และ **TypeScript**  
 ออกแบบมาเพื่อแสดงให้เห็นถึงสถาปัตยกรรม frontend ที่ทันสมัย การจัดการ state ที่ซับซ้อน และการลากวางที่มีประสิทธิภาพสูง
 
-- 🔗 **Backend Repository:** [task-board-api](https://github.com/phraewchuthamat/task-board-api)
-- 🚀 **Live Demo:** [Task Board App](https://task-board-react-ivory.vercel.app/login)
+-  **Backend Repository:** [task-board-api](https://github.com/phraewchuthamat/task-board-api)
+-  **Live Demo:** [Task Board App](https://task-board-react-ivory.vercel.app/login)
 
 ![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
@@ -15,23 +15,23 @@
 
 ---
 
-## 📸 Preview
+##  Preview
 
-### 🌙 Dark Mode
+###  Dark Mode
 | Login | Dashboard |
 |:---:|:---:|
 | ![Login Dark](public/login_drakmode.png) | ![Dashboard Dark](public/drakmode.png) |
 
-### ☀️ Light Mode
+###  Light Mode
 | Login | Dashboard |
 |:---:|:---:|
 | ![Login Light](public/login_lightmode.png) | ![Dashboard Light](public/lightmode.png) |
 
 ---
 
-## ✨ ฟีเจอร์หลัก
+##  ฟีเจอร์หลัก
 
-### 🎯 ฟังก์ชันหลัก
+###  ฟังก์ชันหลัก
 - **คอลัมน์แบบไดนามิก:** สร้าง แก้ไข และลบคอลัมน์ที่กำหนดเองพร้อมสีที่เลือกได้
 - **ลากและวาง:** บอร์ดแบบโต้ตอบเต็มรูปแบบด้วย `@dnd-kit` รองรับการ**จัดเรียง**งานภายในคอลัมน์และ**ย้าย**งานระหว่างคอลัมน์พร้อมแอนิเมชันที่ลื่นไหล
 - **CRUD Operations:** สร้าง อ่าน อัปเดต และลบงานพร้อมการอัปเดต UI แบบเรียลไทม์
@@ -39,7 +39,7 @@
 - **ระบบสมาชิกครบวงจร:** สมัครสมาชิก, เข้าสู่ระบบ, ลืมรหัสผ่าน, รีเซ็ตรหัสผ่าน และแก้ไขโปรไฟล์
 - **JWT Authentication:** การยืนยันตัวตนที่ปลอดภัยพร้อมระบบ Refresh Token อัตโนมัติ
 
-### 🎨 ประสบการณ์ผู้ใช้ (UX)
+###  ประสบการณ์ผู้ใช้ (UX)
 - **เลย์เอาต์สไตล์ Jira:** ความสูงวิวพอร์ตคงที่พร้อมการเลื่อนภายในแบบอิสระสำหรับคอลัมน์และการเลื่อนแนวนอนสำหรับบอร์ด
 - **Snap Scrolling:** การใช้งาน CSS Scroll Snap เพื่อให้รู้สึกเหมือนแอปพลิเคชันดั้งเดิมบนอุปกรณ์สัมผัส
 - **โหมดมืด/สว่าง:** การสลับธีมที่รู้จักระบบพร้อมการบันทึกค่าที่ตั้ง (Persisted Theme)
@@ -47,14 +47,14 @@
 - **การออกแบบแบบ Responsive:** แนวทาง Mobile-first ปรับให้เหมาะกับโทรศัพท์ แท็บเล็ต และเดสก์ท็อป
 - **Micro-interactions:** แอนิเมชัน (Framer Motion) และการตอบสนองต่อผู้ใช้ที่ลื่นไหล
 
-### 💾 การจัดเก็บข้อมูล
+### การจัดเก็บข้อมูล
 - **การเชื่อมต่อ Backend API:** เชื่อมต่อกับ Backend ที่เก็บข้อมูลบน **PostgreSQL**
 - **Local Storage:** ธีมและการตั้งค่าภาษาถูกเก็บไว้ในเครื่องเพื่อการโหลดที่รวดเร็ว
 - **Optimistic Updates:** ข้อเสนอแนะ UI ทันทีก่อนการยืนยันจาก API
 
 ---
 
-## 🛠️ จุดเด่นทางเทคนิค
+##  จุดเด่นทางเทคนิค
 
 ### 1. สถาปัตยกรรมและการจัดการ State
 - **Context API:** ระบบจัดการ state แบบรวมศูนย์สำหรับงาน (`TaskContext`), คอลัมน์ (`ColumnContext`), การยืนยันตัวตน (`AuthContext`), ธีม (`ThemeContext`), ภาษา (`LanguageContext`) และการแจ้งเตือน (`AlertContext`)
@@ -75,7 +75,7 @@
 
 ---
 
-## 💻 เทคโนโลยีที่ใช้
+##  เทคโนโลยีที่ใช้
 
 ### Frontend
 - **Runtime/Build:** React 19 (Vite)
@@ -132,11 +132,11 @@ tests/
 
 ---
 
-## 🧪 Testing (E2E)
+##  Testing (E2E)
 
 ทดสอบระบบแบบ End-to-End ด้วย **Playwright** ครอบคลุมฟีเจอร์หลักทั้งหมด บันทึกวิดีโอ Full HD (1920×1080) ทุกครั้งที่รัน
 
-### 📋 Test Cases (16 tests)
+###  Test Cases (16 tests)
 
 #### Authentication (`auth.spec.ts`)
 
@@ -164,7 +164,7 @@ tests/
 | | ✅ Task อยู่ Column แรกเสมอ | มี 2 Column → Task ใหม่อยู่ Column แรก |
 | **Drag & Drop** | ✅ ลาก Task ข้าม Column | ลาก Task จาก Column 1 → Column 2 สำเร็จ |
 
-### 🚀 วิธีรันเทสต์
+###  วิธีรันเทสต์
 
 ```bash
 # ติดตั้ง Playwright browsers (ครั้งแรก)
@@ -184,7 +184,7 @@ npx playwright show-report
 
 ---
 
-## 🚀 เริ่มต้นใช้งาน
+##  เริ่มต้นใช้งาน
 
 ### ข้อกำหนดเบื้องต้น
 - Node.js (เวอร์ชัน LTS)
@@ -218,7 +218,7 @@ npx playwright show-report
 
 ---
 
-## ☁️ Deployment Details
+##  Deployment Details
 
 **Current Production Build:**
 - **URL:** [https://task-board-react-ivory.vercel.app](https://task-board-react-ivory.vercel.app/login)
@@ -228,13 +228,6 @@ npx playwright show-report
 
 ---
 
-## 👨‍💻 ผู้เขียน
-
-**Phraew Chuthamat**
-- GitHub: [@phraewchuthamat](https://github.com/phraewchuthamat)
-
----
-
-## 📄 License
+##  License
 
 This project is licensed under the ISC License.
