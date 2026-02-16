@@ -20,12 +20,12 @@
 ### 🌙 Dark Mode
 | Login | Dashboard |
 |:---:|:---:|
-| ![Login Dark](public/login_drakmode.png) | ![Dashboard Dark](public/dashboard_drak.png) |
+| ![Login Dark](public/login_drakmode.png) | ![Dashboard Dark](public/drakmode.png) |
 
 ### ☀️ Light Mode
 | Login | Dashboard |
 |:---:|:---:|
-| ![Login Light](public/login_lightmode.png) | ![Dashboard Light](public/dashboard_light.png) |
+| ![Login Light](public/login_lightmode.png) | ![Dashboard Light](public/lightmode.png) |
 
 ---
 
@@ -93,7 +93,7 @@
 ### Backend
 > **หมายเหตุ:** โปรเจคนี้เป็นส่วนของ Frontend เท่านั้น สำหรับ Backend API สามารถดูได้ที่ [task-board-api](https://github.com/phraewchuthamat/task-board-api)
 
-- **Database:** PostgreSQL (ย้ายจาก MySQL)
+- **Database:** PostgreSQL
 - **ORM:** Prisma
 - **Framework:** Express.js / Node.js
 - **Auth:** JWT
