@@ -17,14 +17,17 @@
 
 ##  Preview
 
+###  Video Example
+<video src="https://res.cloudinary.com/dymaipqhi/video/upload/v1772546936/video_yimdq3.mp4" controls width="100%"></video>
+
 ###  Dark Mode
-| Login | Dashboard |
-|:---:|:---:|
+|                  Login                   |               Dashboard                |
+| :--------------------------------------: | :------------------------------------: |
 | ![Login Dark](public/login_drakmode.png) | ![Dashboard Dark](public/drakmode.png) |
 
 ###  Light Mode
-| Login | Dashboard |
-|:---:|:---:|
+|                   Login                    |                Dashboard                 |
+| :----------------------------------------: | :--------------------------------------: |
 | ![Login Light](public/login_lightmode.png) | ![Dashboard Light](public/lightmode.png) |
 
 ---
@@ -140,29 +143,29 @@ tests/
 
 #### Authentication (`auth.spec.ts`)
 
-| กลุ่ม | Test Case | สิ่งที่ทดสอบ |
-|---|---|---|
-| **Register** | ✅ สมัครสมาชิกสำเร็จ | กรอกข้อมูล → redirect ไปหน้า Login |
-| | ✅ Username สั้นเกินไป | Username < 3 ตัวอักษร → แสดง error |
-| | ✅ Password สั้นเกินไป | Password < 6 ตัวอักษร → แสดง error |
-| | ✅ Password ไม่ตรงกัน | Confirm password ผิด → แสดง error |
-| **Login** | ✅ เข้าสู่ระบบสำเร็จ | Register → Login → เข้า Dashboard + Navbar |
-| | ✅ Username สั้นเกินไป | Username < 3 ตัวอักษร → แสดง error |
-| | ✅ Password สั้นเกินไป | Password < 6 ตัวอักษร → แสดง error |
+| กลุ่ม                 | Test Case             | สิ่งที่ทดสอบ                                   |
+| ------------------- | --------------------- | ------------------------------------------ |
+| **Register**        | ✅ สมัครสมาชิกสำเร็จ       | กรอกข้อมูล → redirect ไปหน้า Login            |
+|                     | ✅ Username สั้นเกินไป    | Username < 3 ตัวอักษร → แสดง error           |
+|                     | ✅ Password สั้นเกินไป    | Password < 6 ตัวอักษร → แสดง error           |
+|                     | ✅ Password ไม่ตรงกัน    | Confirm password ผิด → แสดง error           |
+| **Login**           | ✅ เข้าสู่ระบบสำเร็จ        | Register → Login → เข้า Dashboard + Navbar  |
+|                     | ✅ Username สั้นเกินไป    | Username < 3 ตัวอักษร → แสดง error           |
+|                     | ✅ Password สั้นเกินไป    | Password < 6 ตัวอักษร → แสดง error           |
 | **Protected Route** | ✅ Redirect ถ้าไม่ login | เข้า `/dashboard` → ถูก redirect ไป `/login` |
-| **Navigation** | ✅ Login ↔ Register | ลิงก์ระหว่างหน้าทำงานถูกต้อง |
-| | ✅ Register → Login | ลิงก์กลับหน้า Login ทำงานถูกต้อง |
-| | ✅ Forgot Password | ลิงก์ไปหน้า Reset Password ทำงานถูกต้อง |
+| **Navigation**      | ✅ Login ↔ Register    | ลิงก์ระหว่างหน้าทำงานถูกต้อง                      |
+|                     | ✅ Register → Login    | ลิงก์กลับหน้า Login ทำงานถูกต้อง                  |
+|                     | ✅ Forgot Password     | ลิงก์ไปหน้า Reset Password ทำงานถูกต้อง          |
 
 #### Kanban Board (`kanban.spec.ts`)
 
-| กลุ่ม | Test Case | สิ่งที่ทดสอบ |
-|---|---|---|
-| **Column** | ✅ สร้าง Column สำเร็จ | กรอกชื่อ + เลือกสี → Column ปรากฏ |
-| | ✅ ชื่อว่างไม่ได้ | กด Save โดยไม่กรอกชื่อ → แสดง error |
-| **Task** | ✅ สร้าง Task ใน Column แรก | Task ใหม่ปรากฏใน Column แรกเสมอ |
-| | ✅ Task อยู่ Column แรกเสมอ | มี 2 Column → Task ใหม่อยู่ Column แรก |
-| **Drag & Drop** | ✅ ลาก Task ข้าม Column | ลาก Task จาก Column 1 → Column 2 สำเร็จ |
+| กลุ่ม             | Test Case                 | สิ่งที่ทดสอบ                              |
+| --------------- | ------------------------- | ------------------------------------- |
+| **Column**      | ✅ สร้าง Column สำเร็จ        | กรอกชื่อ + เลือกสี → Column ปรากฏ         |
+|                 | ✅ ชื่อว่างไม่ได้               | กด Save โดยไม่กรอกชื่อ → แสดง error      |
+| **Task**        | ✅ สร้าง Task ใน Column แรก | Task ใหม่ปรากฏใน Column แรกเสมอ        |
+|                 | ✅ Task อยู่ Column แรกเสมอ  | มี 2 Column → Task ใหม่อยู่ Column แรก    |
+| **Drag & Drop** | ✅ ลาก Task ข้าม Column     | ลาก Task จาก Column 1 → Column 2 สำเร็จ |
 
 ###  วิธีรันเทสต์
 
